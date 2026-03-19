@@ -2,7 +2,7 @@
 // Server Entry Point
 // ============================================================
 
-import app from './app'
+import app from './src/app'
 import { connectDB, env } from './config'
 
 async function bootstrap() {
