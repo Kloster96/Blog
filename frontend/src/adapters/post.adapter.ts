@@ -37,7 +37,7 @@ export function adaptPostListResponse(
   raw: ApiPostResponse[] & { total?: number; page?: number; totalPages?: number }
 ): PostListResponse {
   return {
-    posts: adaptPostList(rawList),
+    posts: adaptPostList(raw as unknown as ApiPostResponse[]),
     total: (raw as any).total ?? 0,
     page: (raw as any).page ?? 1,
     totalPages: (raw as any).totalPages ?? 1,
