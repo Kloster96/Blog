@@ -15,7 +15,11 @@ import { env } from './config'
 const app = express()
 
 // Security & Logging middlewares
-app.use(helmet())
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false, // Permitir cross-origin para el frontend
+  })
+)
 app.use(
   cors({
     origin: env.frontendUrl,

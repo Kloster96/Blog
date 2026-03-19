@@ -59,7 +59,6 @@ const postSchema = new mongoose.Schema<IPostDocument>(
 
 // Índices para queries eficientes
 postSchema.index({ status: 1, createdAt: -1 })
-postSchema.index({ slug: 1 }, { unique: true })
 postSchema.index({ tags: 1 })
 postSchema.index({ status: 1 })
 

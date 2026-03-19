@@ -27,11 +27,19 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const router = useRouter()
   const pathname = usePathname()
 
+  // Si estamos en /admin/login, NO verificamos auth — mostramos el form directamente
+  const isLoginPage = pathname === '/admin/login'
+
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !isLoginPage) {
       router.push('/admin/login')
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, router, isLoginPage])
+
+  // Login page: mostrar children sin sidebar ni auth check
+  if (isLoginPage) {
+    return <>{children}</>
+  }
 
   if (!isAuthenticated) {
     return (

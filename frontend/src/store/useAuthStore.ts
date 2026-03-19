@@ -6,7 +6,6 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { login as apiLogin, logout as apiLogout, getMe } from '@/services/auth.service'
 import { useToastStore } from './useToastStore'
-import { useRouter } from 'next/navigation'
 
 interface AuthState {
   isAuthenticated: boolean
