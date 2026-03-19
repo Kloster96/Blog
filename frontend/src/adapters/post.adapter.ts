@@ -34,11 +34,12 @@ export function adaptPostList(rawList: ApiPostResponse[]): Post[] {
  * Adapta respuesta de lista paginada
  */
 export function adaptPostListResponse(
-  raw: ApiPostResponse[] & { total?: number; page?: number; totalPages?: number }
+  raw: ApiPostResponse[] & { total?: number; page?: number; totalPages?: number; posts?: ApiPostResponse[] }
 ): PostListResponse {
+  const postsArray = (raw as any).posts ?? raw
   return {
-    posts: adaptPostList(raw as unknown as ApiPostResponse[]),
-    total: (raw as any).total ?? 0,
+    posts: adaptPostList(postsArray),
+    total: (raw as any).total ?? postsArray.length ?? 0,
     page: (raw as any).page ?? 1,
     totalPages: (raw as any).totalPages ?? 1,
   }
