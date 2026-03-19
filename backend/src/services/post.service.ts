@@ -79,7 +79,8 @@ export class PostService {
       publishedAt: data.status === 'published' ? new Date() : null,
     })
 
-    return this.findById(populatePost(post))
+    const populated = await post.populate('author', 'username')
+    return postToResponse(populated as any)
   }
 
   /**
@@ -109,7 +110,8 @@ export class PostService {
     }
 
     await post.save()
-    return this.findById(populatePost(post))
+    const populated = await post.populate('author', 'username')
+    return postToResponse(populated as any)
   }
 
   /**
@@ -183,10 +185,6 @@ export class PostService {
     post = await post.populate('author', 'username')
     return postToResponse(post as any)
   }
-}
-
-function populatePost(post: any) {
-  return post.populate('author', 'username')
 }
 
 export const postService = new PostService()
