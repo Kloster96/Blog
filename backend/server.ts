@@ -3,7 +3,7 @@
 // ============================================================
 
 import app from './src/app'
-import { connectDB, env } from './config'
+import { connectDB, env } from './src/config'
 
 async function bootstrap() {
   try {
