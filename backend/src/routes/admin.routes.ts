@@ -9,6 +9,6 @@ import { verifyJWT } from '../middleware/auth.middleware'
 const router = Router()
 
 // GET /api/admin/posts — todos los posts (incluye drafts) — protegido
-router.get('/', verifyJWT, getAllAdmin)
+router.get('/posts', verifyJWT, getAllAdmin)
 
 export default router
