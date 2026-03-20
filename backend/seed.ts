@@ -285,7 +285,7 @@ La seguridad no es opcional. Lo que aprendés en tutoriales de YouTube tiene fec
 
 **Si tu blog tiene JWT en localStorage, un atacante puede publicar en tu nombre.**`,
       excerpt: 'Si seguiste cualquier tutorial JWT, probablemente guardás el token en localStorage. En 2024, eso es una vulnerabilidad.',
-      coverImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1200',
+      coverImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200',
       status: 'published',
       tags: ['seguridad', 'jwt', 'nodejs'],
       author: admin._id,
