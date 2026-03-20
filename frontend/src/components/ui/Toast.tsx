@@ -1,7 +1,7 @@
 'use client'
 
 // ============================================================
-// Toast Component
+// Toast — Premium dark notifications
 // ============================================================
 
 import { CheckCircle, XCircle, Info, X } from 'lucide-react'
@@ -16,18 +16,24 @@ interface ToastProps {
 const typeConfig = {
   success: {
     icon: CheckCircle,
-    classes: 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900 dark:border-green-700 dark:text-green-100',
-    iconClasses: 'text-green-600 dark:text-green-400',
+    border: 'border-emerald-500/20',
+    bg: 'bg-emerald-500/[0.06]',
+    iconColor: 'text-emerald-400',
+    textColor: 'text-emerald-200',
   },
   error: {
     icon: XCircle,
-    classes: 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900 dark:border-red-700 dark:text-red-100',
-    iconClasses: 'text-red-600 dark:text-red-400',
+    border: 'border-red-500/20',
+    bg: 'bg-red-500/[0.06]',
+    iconColor: 'text-red-400',
+    textColor: 'text-red-200',
   },
   info: {
     icon: Info,
-    classes: 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-100',
-    iconClasses: 'text-blue-600 dark:text-blue-400',
+    border: 'border-blue-500/20',
+    bg: 'bg-blue-500/[0.06]',
+    iconColor: 'text-blue-400',
+    textColor: 'text-blue-200',
   },
 }
 
@@ -39,19 +45,22 @@ export function Toast({ toast }: ToastProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg',
+        'flex items-center gap-3 rounded-xl border px-4 py-3 shadow-2xl backdrop-blur-xl',
         'animate-in slide-in-from-right-full fade-in duration-300',
-        config.classes
+        'border-white/[0.06] bg-zinc-900/90',
+        config.bg
       )}
     >
-      <Icon className={cn('h-5 w-5 flex-shrink-0', config.iconClasses)} />
-      <p className="flex-1 text-sm font-medium">{toast.message}</p>
+      <Icon className={cn('h-4 w-4 flex-shrink-0', config.iconColor)} />
+      <p className={cn('flex-1 text-sm font-medium', config.textColor)}>
+        {toast.message}
+      </p>
       <button
         onClick={() => removeToast(toast.id)}
-        className="flex-shrink-0 rounded-lg p-1 transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+        className="flex-shrink-0 rounded-lg p-1 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300"
         aria-label="Cerrar"
       >
-        <X className="h-4 w-4" />
+        <X className="h-3.5 w-3.5" />
       </button>
     </div>
   )

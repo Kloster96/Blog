@@ -1,7 +1,6 @@
 // ============================================================
-// Post Detail Page — SSG + ISR
+// Post Detail Page — Premium article view
 // ============================================================
-// Implementación completa en Milestone 8
 
 import { notFound } from 'next/navigation'
 import { getPostBySlug } from '@/services/post.service'
@@ -9,6 +8,8 @@ import { PostContent } from '@/components/blog/PostContent'
 import { Badge } from '@/components/ui/Badge'
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 export const revalidate = 60
 
@@ -21,10 +22,19 @@ export default async function PostPage({ params }: PageProps) {
     const post = await getPostBySlug(params.slug)
 
     return (
-      <article className="mx-auto max-w-3xl px-4 py-12">
+      <main className="mx-auto max-w-3xl px-6 pt-32 pb-20">
+        {/* Back link */}
+        <Link
+          href="/"
+          className="mb-10 inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Volver al inicio
+        </Link>
+
         {/* Cover Image */}
         {post.coverImage && (
-          <div className="relative mb-8 aspect-video overflow-hidden rounded-xl">
+          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-2xl border border-white/[0.06]">
             <Image
               src={post.coverImage}
               alt={post.title}
@@ -32,35 +42,42 @@ export default async function PostPage({ params }: PageProps) {
               className="object-cover"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 to-transparent" />
           </div>
         )}
 
         {/* Header */}
-        <header className="mb-8">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">{post.title}</h1>
+        <header className="mb-10">
+          {/* Tags */}
+          {post.tags.length > 0 && (
+            <div className="mb-4 flex flex-wrap gap-1.5">
+              {post.tags.map((tag) => (
+                <Badge key={tag} variant="default">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-            <span>Por {post.authorUsername}</span>
-            <span>•</span>
+          {/* Title */}
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
+            {post.title}
+          </h1>
+
+          {/* Meta */}
+          <div className="flex items-center gap-3 text-sm text-zinc-500">
+            <span className="font-medium text-zinc-400">{post.authorUsername}</span>
+            <span className="text-zinc-700">·</span>
             <span>{formatDate(post.createdAt)}</span>
-            {post.tags.length > 0 && (
-              <>
-                <span>•</span>
-                <div className="flex gap-2">
-                  {post.tags.map((tag) => (
-                    <Badge key={tag} variant="default">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </>
-            )}
           </div>
         </header>
 
+        {/* Divider */}
+        <div className="mb-10 border-t border-white/[0.06]" />
+
         {/* Content */}
         <PostContent content={post.content} />
-      </article>
+      </main>
     )
   } catch {
     notFound()

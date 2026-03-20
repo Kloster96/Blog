@@ -1,5 +1,5 @@
 // ============================================================
-// PostContent Component — Renderiza Markdown como HTML
+// PostContent — Dark prose rendering
 // ============================================================
 
 import ReactMarkdown from 'react-markdown'
@@ -11,10 +11,10 @@ interface PostContentProps {
 
 export function PostContent({ content }: PostContentProps) {
   return (
-    <article className="prose prose-lg max-w-none dark:prose-invert">
+    <div className="prose max-w-none">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
         {content}
       </ReactMarkdown>
-    </article>
+    </div>
   )
 }

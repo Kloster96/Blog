@@ -1,5 +1,5 @@
 // ============================================================
-// Button Component
+// Button — Premium dark style
 // ============================================================
 
 import { forwardRef, ButtonHTMLAttributes } from 'react'
@@ -13,16 +13,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses = {
-  primary: 'bg-brand-600 text-white hover:bg-brand-700 focus-visible:ring-brand-500',
-  secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100',
-  ghost: 'hover:bg-gray-100 dark:hover:bg-gray-800',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500',
+  primary:
+    'bg-white text-zinc-950 hover:bg-zinc-200 focus-visible:ring-white/30',
+  secondary:
+    'border border-white/[0.08] bg-white/[0.04] text-zinc-300 hover:bg-white/[0.08] hover:text-white',
+  ghost:
+    'text-zinc-400 hover:bg-white/[0.04] hover:text-white',
+  danger:
+    'bg-red-600/90 text-white hover:bg-red-600 focus-visible:ring-red-500/30',
 }
 
 const sizeClasses = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  sm: 'px-3 py-1.5 text-xs',
+  md: 'px-4 py-2 text-sm',
+  lg: 'px-6 py-3 text-base',
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -43,9 +47,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         className={cn(
-          'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-          'disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950',
+          'disabled:pointer-events-none disabled:opacity-40',
           variantClasses[variant],
           sizeClasses[size],
           className

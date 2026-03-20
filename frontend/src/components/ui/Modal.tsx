@@ -1,7 +1,7 @@
 'use client'
 
 // ============================================================
-// Modal Component
+// Modal — Premium dark style
 // ============================================================
 
 import { useEffect, useCallback } from 'react'
@@ -17,7 +17,6 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
-  // Cerrar con ESC
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -43,7 +42,7 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -54,22 +53,21 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
         aria-modal="true"
         aria-labelledby="modal-title"
         className={cn(
-          'relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-xl',
-          'dark:bg-gray-800',
+          'relative z-10 w-full max-w-md rounded-2xl border border-white/[0.06] bg-zinc-900/95 p-6 shadow-2xl backdrop-blur-xl',
           className
         )}
       >
         {/* Header */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 id="modal-title" className="text-lg font-semibold">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 id="modal-title" className="text-base font-semibold text-zinc-100">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300"
             aria-label="Cerrar"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 

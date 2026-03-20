@@ -1,14 +1,14 @@
 'use client'
 
 // ============================================================
-// Admin Layout — Wrapper para rutas /admin/*
+// Admin Layout — Premium dark sidebar
 // ============================================================
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FileText, LayoutDashboard, LogOut, PenLine } from 'lucide-react'
+import { LayoutDashboard, LogOut, PenLine } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/useAuthStore'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
@@ -27,7 +27,6 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Si estamos en /admin/login, NO verificamos auth — mostramos el form directamente
   const isLoginPage = pathname === '/admin/login'
 
   useEffect(() => {
@@ -36,14 +35,13 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     }
   }, [isAuthenticated, router, isLoginPage])
 
-  // Login page: mostrar children sin sidebar ni auth check
   if (isLoginPage) {
     return <>{children}</>
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <LoadingSpinner size="lg" />
       </div>
     )
@@ -52,13 +50,17 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 border-r border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
-        <div className="flex h-16 items-center border-b border-gray-200 px-6 dark:border-gray-800">
-          <span className="text-lg font-bold">Admin Panel</span>
+      <aside className="fixed left-0 top-0 flex h-screen w-60 flex-col border-r border-white/[0.06] bg-zinc-950">
+        {/* Header */}
+        <div className="flex h-16 items-center gap-2.5 border-b border-white/[0.06] px-5">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white">
+            <span className="text-xs font-bold text-black">B</span>
+          </div>
+          <span className="text-sm font-semibold text-zinc-100">Admin</span>
         </div>
 
         {/* Nav */}
-        <nav className="space-y-1 p-4">
+        <nav className="flex-1 space-y-1 p-3">
           {adminNavLinks.map((link) => {
             const Icon = link.icon
             const isActive = pathname === link.href
@@ -68,10 +70,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200',
                   isActive
-                    ? 'bg-brand-50 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+                    ? 'bg-white/[0.06] font-medium text-white'
+                    : 'text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300'
                 )}
               >
                 <Icon className="h-4 w-4" />
@@ -82,13 +84,13 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* User info + logout */}
-        <div className="absolute bottom-0 w-64 border-t border-gray-200 p-4 dark:border-gray-800">
-          <div className="mb-3 text-sm text-gray-500 dark:text-gray-400">
-            Conectado como <span className="font-medium">{username}</span>
+        <div className="border-t border-white/[0.06] p-3">
+          <div className="mb-2 px-3 text-xs text-zinc-600">
+            {username}
           </div>
           <button
             onClick={() => void logout()}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-500 transition-colors hover:bg-white/[0.03] hover:text-red-400"
           >
             <LogOut className="h-4 w-4" />
             Cerrar sesión
@@ -97,7 +99,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="ml-60 flex-1 overflow-auto">
+        {children}
+      </main>
     </div>
   )
 }
