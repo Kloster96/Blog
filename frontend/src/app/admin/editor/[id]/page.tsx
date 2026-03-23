@@ -1,9 +1,8 @@
 'use client'
 
 // ============================================================
-// Post Editor Page — Editar post existente
+// Post Editor Page — Edit existing post
 // ============================================================
-// Implementación completa en Milestone 9
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -47,7 +46,7 @@ export default function EditPostPage({ params }: PageProps) {
   if (!post) {
     return (
       <div className="p-8">
-        <p className="text-red-600">Post no encontrado</p>
+        <p className="text-red-400">Post not found</p>
       </div>
     )
   }
@@ -55,9 +54,9 @@ export default function EditPostPage({ params }: PageProps) {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold">Editar Post</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Modificá el artículo "{post.title}"
+        <h1 className="text-2xl font-bold">Edit Post</h1>
+        <p className="mt-1 text-sm text-zinc-500">
+          Editing &quot;{post.title}&quot;
         </p>
       </div>
 

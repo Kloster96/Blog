@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/', label: 'Inicio' },
+  { href: '/', label: 'Home' },
   { href: '/admin/dashboard', label: 'Admin' },
 ]
 
@@ -26,10 +26,10 @@ export function Navbar() {
               <span className="text-sm font-bold text-black">B</span>
             </div>
             <span className="text-[15px] font-semibold tracking-tight text-zinc-100">
-              Blog
+              Tech
             </span>
             <span className="text-[15px] font-light tracking-tight text-zinc-500">
-              Técnico
+              Blog
             </span>
           </Link>
 

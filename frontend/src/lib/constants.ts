@@ -4,8 +4,8 @@
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
-export const SITE_NAME = 'Blog Técnico'
-export const SITE_DESCRIPTION = 'Artículos sobre tecnología, desarrollo web y más'
+export const SITE_NAME = 'Tech Blog'
+export const SITE_DESCRIPTION = 'Articles about technology, web development and more'
 
 // Paths
 export const PATHS = {

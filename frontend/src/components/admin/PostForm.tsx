@@ -1,12 +1,11 @@
 'use client'
 
 // ============================================================
-// Post Form Component — Crear / Editar posts
+// Post Form Component — Create / Edit posts
 // ============================================================
 
 import { useState } from 'react'
 import { createPost, updatePost } from '@/services/post.service'
-import { parseTags } from '@/adapters/tags.adapter'
 import { useToastStore } from '@/store/useToastStore'
 import type { Post, PostFormData } from '@/models'
 import { Input } from '@/components/ui/Input'
@@ -22,8 +21,8 @@ interface PostFormProps {
 }
 
 const statusOptions = [
-  { value: 'draft', label: 'Borrador' },
-  { value: 'published', label: 'Publicado' },
+  { value: 'draft', label: 'Draft' },
+  { value: 'published', label: 'Published' },
 ]
 
 export function PostForm({ post, onSuccess }: PostFormProps) {
@@ -48,11 +47,11 @@ export function PostForm({ post, onSuccess }: PostFormProps) {
     e.preventDefault()
 
     if (!formData.title.trim()) {
-      toast.addToast('El título es requerido', 'error')
+      toast.addToast('Title is required', 'error')
       return
     }
     if (!formData.content.trim()) {
-      toast.addToast('El contenido es requerido', 'error')
+      toast.addToast('Content is required', 'error')
       return
     }
 
@@ -60,14 +59,14 @@ export function PostForm({ post, onSuccess }: PostFormProps) {
     try {
       if (post) {
         await updatePost(post.id, formData)
-        toast.addToast('Post actualizado', 'success')
+        toast.addToast('Post updated', 'success')
       } else {
         await createPost(formData)
-        toast.addToast('Post creado', 'success')
+        toast.addToast('Post created', 'success')
       }
       onSuccess()
     } catch {
-      toast.addToast('Error al guardar post', 'error')
+      toast.addToast('Error saving post', 'error')
     } finally {
       setIsSubmitting(false)
     }
@@ -75,31 +74,31 @@ export function PostForm({ post, onSuccess }: PostFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl space-y-6">
-      {/* Título */}
+      {/* Title */}
       <Input
-        label="Título"
+        label="Title"
         value={formData.title}
         onChange={(e) => updateField('title', e.target.value)}
-        placeholder="El título de tu post"
+        placeholder="Your post title"
         required
       />
 
-      {/* Contenido (Markdown Editor) */}
+      {/* Content (Markdown Editor) */}
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Contenido
+        <label className="mb-2 block text-sm font-medium text-zinc-400">
+          Content
         </label>
         <MarkdownEditor
           value={formData.content}
           onChange={(value) => updateField('content', value)}
-          placeholder="# Título\n\nTu contenido en Markdown..."
+          placeholder="# Your title\n\nWrite your content in Markdown..."
         />
       </div>
 
       {/* Cover Image */}
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Imagen de Cover
+        <label className="mb-2 block text-sm font-medium text-zinc-400">
+          Cover Image
         </label>
         <ImageUploader
           value={formData.coverImage}
@@ -109,36 +108,36 @@ export function PostForm({ post, onSuccess }: PostFormProps) {
 
       {/* Tags */}
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="mb-2 block text-sm font-medium text-zinc-400">
           Tags
         </label>
         <TagInput
           value={formData.tags}
           onChange={(tags) => updateField('tags', tags)}
-          placeholder="Agregar tags..."
+          placeholder="Add tags..."
         />
       </div>
 
       {/* Status */}
       <Select
-        label="Estado"
+        label="Status"
         options={statusOptions}
         value={formData.status}
         onChange={(e) => updateField('status', e.target.value as 'draft' | 'published')}
       />
 
       {/* Submit */}
-      <div className="flex justify-end gap-3 border-t border-gray-200 pt-6 dark:border-gray-800">
+      <div className="flex justify-end gap-3 border-t border-white/[0.06] pt-6">
         <Button
           type="button"
           variant="secondary"
           onClick={onSuccess}
           disabled={isSubmitting}
         >
-          Cancelar
+          Cancel
         </Button>
         <Button type="submit" loading={isSubmitting}>
-          {isSubmitting ? 'Guardando...' : post ? 'Actualizar' : 'Crear Post'}
+          {isSubmitting ? 'Saving...' : post ? 'Update' : 'Create Post'}
         </Button>
       </div>
     </form>

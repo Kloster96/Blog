@@ -24,15 +24,13 @@ export function ImageUploader({ value, onChange }: ImageUploaderProps) {
   const toast = useToastStore()
 
   const handleFile = async (file: File) => {
-    // Validar tipo
     if (!file.type.startsWith('image/')) {
-      toast.addToast('Solo se permiten imágenes', 'error')
+      toast.addToast('Only image files are allowed', 'error')
       return
     }
 
-    // Validar tamaño (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.addToast('La imagen debe ser menor a 5MB', 'error')
+      toast.addToast('Image must be smaller than 5MB', 'error')
       return
     }
 
@@ -40,9 +38,9 @@ export function ImageUploader({ value, onChange }: ImageUploaderProps) {
     try {
       const url = await uploadImage(file)
       onChange(url)
-      toast.addToast('Imagen subida correctamente', 'success')
+      toast.addToast('Image uploaded successfully', 'success')
     } catch {
-      toast.addToast('Error al subir imagen', 'error')
+      toast.addToast('Error uploading image', 'error')
     } finally {
       setIsUploading(false)
     }
@@ -64,7 +62,7 @@ export function ImageUploader({ value, onChange }: ImageUploaderProps) {
     <div>
       {value ? (
         /* Preview */
-        <div className="relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="relative overflow-hidden rounded-lg border border-white/[0.06]">
           <Image
             src={value}
             alt="Cover"
@@ -93,31 +91,31 @@ export function ImageUploader({ value, onChange }: ImageUploaderProps) {
           className={cn(
             'flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-8 transition-colors',
             isDragging
-              ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20'
-              : 'border-gray-300 hover:border-brand-400 hover:bg-gray-50 dark:border-gray-700 dark:hover:border-brand-600',
+              ? 'border-zinc-500 bg-zinc-500/[0.04]'
+              : 'border-zinc-700 hover:border-zinc-500 hover:bg-white/[0.02]',
             isUploading && 'pointer-events-none opacity-50'
           )}
         >
           {isUploading ? (
             <>
               <LoadingSpinner />
-              <p className="text-sm text-gray-500">Subiendo imagen...</p>
+              <p className="text-sm text-zinc-500">Uploading image...</p>
             </>
           ) : (
             <>
-              <div className="rounded-full bg-gray-100 p-3 dark:bg-gray-800">
+              <div className="rounded-full bg-zinc-800 p-3">
                 {isDragging ? (
-                  <Upload className="h-6 w-6 text-brand-600" />
+                  <Upload className="h-6 w-6 text-zinc-400" />
                 ) : (
-                  <ImageIcon className="h-6 w-6 text-gray-400" />
+                  <ImageIcon className="h-6 w-6 text-zinc-500" />
                 )}
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {isDragging ? 'Soltá la imagen aquí' : 'Arrastrá una imagen o'}
+                <p className="text-sm font-medium text-zinc-300">
+                  {isDragging ? 'Drop image here' : 'Drag an image or click to upload'}
                 </p>
-                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
-                  JPG, PNG, WebP, GIF — máx. 5MB
+                <p className="mt-1 text-xs text-zinc-600">
+                  JPG, PNG, WebP, GIF — max 5MB
                 </p>
               </div>
             </>

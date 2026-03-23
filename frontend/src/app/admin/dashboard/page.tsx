@@ -1,9 +1,8 @@
 'use client'
 
 // ============================================================
-// Admin Dashboard — Lista de posts (CRUD)
+// Admin Dashboard — Post list (CRUD)
 // ============================================================
-// Implementación completa en Milestone 9
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -27,7 +26,7 @@ export default function DashboardPage() {
       const data = await getAdminPosts()
       setPosts(data)
     } catch {
-      toast.addToast('Error al cargar posts', 'error')
+      toast.addToast('Error loading posts', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -41,9 +40,9 @@ export default function DashboardPage() {
     try {
       await deletePost(id)
       setPosts((prev) => prev.filter((p) => p.id !== id))
-      toast.addToast('Post eliminado', 'success')
+      toast.addToast('Post deleted', 'success')
     } catch {
-      toast.addToast('Error al eliminar post', 'error')
+      toast.addToast('Error deleting post', 'error')
     }
   }
 
@@ -55,11 +54,11 @@ export default function DashboardPage() {
         prev.map((p) => (p.id === post.id ? { ...p, status: updated.status } : p))
       )
       toast.addToast(
-        newStatus === 'published' ? 'Post publicado' : 'Post convertido a borrador',
+        newStatus === 'published' ? 'Post published' : 'Post set to draft',
         'success'
       )
     } catch {
-      toast.addToast('Error al actualizar post', 'error')
+      toast.addToast('Error updating post', 'error')
     }
   }
 
@@ -77,14 +76,14 @@ export default function DashboardPage() {
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-zinc-500">
             {posts.length} post{posts.length !== 1 ? 's' : ''} total
           </p>
         </div>
         <Link href="/admin/editor">
           <Button>
             <Plus className="h-4 w-4" />
-            Nuevo Post
+            New Post
           </Button>
         </Link>
       </div>

@@ -29,10 +29,10 @@ export function PostTable({
 
   if (posts.length === 0) {
     return (
-      <div className="rounded-lg border border-gray-200 bg-white py-16 text-center dark:border-gray-800 dark:bg-gray-800">
-        <p className="text-gray-500 dark:text-gray-400">No hay posts todavía.</p>
-        <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
-          Creá tu primer post desde el editor.
+      <div className="rounded-2xl border border-white/[0.06] bg-zinc-900/50 py-16 text-center">
+        <p className="text-zinc-400">No posts yet.</p>
+        <p className="mt-1 text-sm text-zinc-600">
+          Create your first post from the editor.
         </p>
       </div>
     )
@@ -42,43 +42,43 @@ export function PostTable({
 
   return (
     <>
-      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+      <div className="overflow-x-auto rounded-2xl border border-white/[0.06] bg-zinc-900/50">
+        <table className="min-w-full divide-y divide-white/[0.06]">
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Título
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Title
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Estado
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                 Tags
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Fecha
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Date
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Acciones
+              <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-800">
+          <tbody className="divide-y divide-white/[0.04]">
             {posts.map((post) => (
               <tr
                 key={post.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                className="hover:bg-white/[0.02] transition-colors"
               >
                 {/* Title */}
                 <td className="whitespace-nowrap px-6 py-4">
-                  <div className="font-medium">{post.title}</div>
-                  <div className="text-sm text-gray-500">{post.slug}</div>
+                  <div className="font-medium text-zinc-100">{post.title}</div>
+                  <div className="text-xs text-zinc-600">{post.slug}</div>
                 </td>
 
                 {/* Status */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <Badge variant={post.status}>
-                    {post.status === 'published' ? 'Publicado' : 'Borrador'}
+                    {post.status === 'published' ? 'Published' : 'Draft'}
                   </Badge>
                 </td>
 
@@ -91,7 +91,7 @@ export function PostTable({
                       </Badge>
                     ))}
                     {post.tags.length > 3 && (
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-zinc-600">
                         +{post.tags.length - 3}
                       </span>
                     )}
@@ -99,7 +99,7 @@ export function PostTable({
                 </td>
 
                 {/* Date */}
-                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-500">
                   {formatDate(post.createdAt)}
                 </td>
 
@@ -109,12 +109,8 @@ export function PostTable({
                     {/* Toggle status */}
                     <button
                       onClick={() => onToggleStatus(post)}
-                      className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                      title={
-                        post.status === 'published'
-                          ? 'Convertir a borrador'
-                          : 'Publicar'
-                      }
+                      className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300"
+                      title={post.status === 'published' ? 'Set to draft' : 'Publish'}
                     >
                       {post.status === 'published' ? (
                         <FileText className="h-4 w-4" />
@@ -126,8 +122,8 @@ export function PostTable({
                     {/* Edit */}
                     <button
                       onClick={() => onEdit(post.id)}
-                      className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-brand-600 dark:hover:bg-gray-700 dark:hover:text-brand-400"
-                      title="Editar"
+                      className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-white"
+                      title="Edit"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -135,8 +131,8 @@ export function PostTable({
                     {/* Delete */}
                     <button
                       onClick={() => setDeleteId(post.id)}
-                      className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-red-600 dark:hover:bg-gray-700 dark:hover:text-red-400"
-                      title="Eliminar"
+                      className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-red-400"
+                      title="Delete"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -152,15 +148,15 @@ export function PostTable({
       <Modal
         isOpen={deleteId !== null}
         onClose={() => setDeleteId(null)}
-        title="Eliminar Post"
+        title="Delete Post"
       >
-        <p className="mb-6 text-sm text-gray-600 dark:text-gray-400">
-          ¿Estás seguro de eliminar el post &quot;{postToDelete?.title}&quot;? Esta
-          acción no se puede deshacer.
+        <p className="mb-6 text-sm text-zinc-400">
+          Are you sure you want to delete &quot;{postToDelete?.title}&quot;? This
+          action cannot be undone.
         </p>
         <div className="flex justify-end gap-3">
           <Button variant="secondary" onClick={() => setDeleteId(null)}>
-            Cancelar
+            Cancel
           </Button>
           <Button
             variant="danger"
@@ -169,7 +165,7 @@ export function PostTable({
               setDeleteId(null)
             }}
           >
-            Eliminar
+            Delete
           </Button>
         </div>
       </Modal>

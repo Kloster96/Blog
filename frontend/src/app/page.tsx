@@ -24,21 +24,21 @@ export default async function HomePage() {
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1">
             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             <span className="text-xs text-zinc-400">
-              Últimas publicaciones
+              Latest posts
             </span>
           </div>
 
           {/* Title */}
           <h1 className="mb-4 text-5xl font-bold tracking-tight text-zinc-100 sm:text-6xl">
-            Blog{' '}
-            <span className="font-light text-zinc-500">Técnico</span>
+            Tech{' '}
+            <span className="font-light text-zinc-500">Blog</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg leading-relaxed text-zinc-500">
-            Artículos sobre desarrollo web, TypeScript y arquitectura
-            de software. Código limpio, patrones reales,{' '}
-            <span className="text-zinc-400">sin atajos.</span>
+            Articles about web development, TypeScript, and software
+            architecture. Clean code, real patterns,{' '}
+            <span className="text-zinc-400">no shortcuts.</span>
           </p>
         </div>
 

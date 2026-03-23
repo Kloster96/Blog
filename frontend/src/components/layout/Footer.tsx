@@ -12,7 +12,7 @@ export function Footer() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs text-zinc-600">
-            © {year} {SITE_NAME}. Todos los derechos reservados.
+            © {year} {SITE_NAME}. All rights reserved.
           </p>
           <p className="text-xs text-zinc-700">
             Built with Next.js · Express · MongoDB

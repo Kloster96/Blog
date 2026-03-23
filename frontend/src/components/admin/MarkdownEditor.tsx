@@ -34,10 +34,10 @@ export function MarkdownEditor({
             type="button"
             onClick={() => setActiveTab(tab)}
             className={cn(
-              'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
+              'rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200',
               activeTab === tab
-                ? 'bg-brand-100 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300'
-                : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
+                ? 'bg-white/[0.06] text-white'
+                : 'text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300'
             )}
           >
             {tab === 'write' ? 'Write' : 'Preview'}
@@ -50,17 +50,17 @@ export function MarkdownEditor({
         <Textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder ?? 'Escribí tu post en Markdown...'}
+          placeholder={placeholder ?? 'Write your post in Markdown...'}
           rows={20}
           className="font-mono text-sm"
         />
       ) : (
-        <div className="min-h-[400px] rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <div className="min-h-[400px] rounded-lg border border-white/[0.06] bg-white/[0.02] p-6">
           {value.trim() ? (
             <PostContent content={value} />
           ) : (
-            <p className="text-gray-400 dark:text-gray-500">
-              Nada para previewear todavía...
+            <p className="text-zinc-600">
+              Nothing to preview yet...
             </p>
           )}
         </div>

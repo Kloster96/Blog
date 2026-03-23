@@ -19,7 +19,7 @@ interface AdminLayoutProps {
 
 const adminNavLinks = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/editor', label: 'Nuevo Post', icon: PenLine },
+  { href: '/admin/editor', label: 'New Post', icon: PenLine },
 ]
 
 export function AdminLayout({ children }: AdminLayoutProps) {
@@ -93,7 +93,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-500 transition-colors hover:bg-white/[0.03] hover:text-red-400"
           >
             <LogOut className="h-4 w-4" />
-            Cerrar sesión
+            Sign out
           </button>
         </div>
       </aside>

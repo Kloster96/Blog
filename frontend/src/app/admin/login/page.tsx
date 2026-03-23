@@ -35,7 +35,7 @@ export default function LoginPage() {
           </div>
           <h1 className="mb-1 text-xl font-semibold text-zinc-100">Admin Login</h1>
           <p className="text-sm text-zinc-500">
-            Ingresá tus credenciales para acceder al panel
+            Enter your credentials to access the admin panel
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
         <Card className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              label="Usuario"
+              label="Username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -53,7 +53,7 @@ export default function LoginPage() {
             />
 
             <Input
-              label="Contraseña"
+              label="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -63,14 +63,14 @@ export default function LoginPage() {
             />
 
             <Button type="submit" className="w-full" loading={isLoading}>
-              {isLoading ? 'Ingresando...' : 'Ingresar'}
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
         </Card>
 
         {/* Hint */}
         <p className="mt-6 text-center text-xs text-zinc-600">
-          Credenciales por defecto: admin / admin123
+          Default credentials: admin / admin123
         </p>
       </div>
     </div>

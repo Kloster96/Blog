@@ -21,9 +21,9 @@ export async function PostGrid() {
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.02]">
           <span className="text-xl">📝</span>
         </div>
-        <p className="text-zinc-400">No hay posts publicados aún.</p>
+        <p className="text-zinc-400">No posts published yet.</p>
         <p className="mt-1 text-sm text-zinc-600">
-          Vuelve pronto para nuevos artículos.
+          Check back soon for new articles.
         </p>
       </div>
     )

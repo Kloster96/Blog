@@ -1,5 +1,5 @@
 // ============================================================
-// Auth Store — Estado de autenticación con persistencia
+// Auth Store — Authentication state with persistence
 // ============================================================
 
 import { create } from 'zustand'
@@ -32,10 +32,10 @@ export const useAuthStore = create<AuthState>()(
         try {
           await apiLogin(username, password)
           set({ isAuthenticated: true, username, isLoading: false })
-          toast.addToast(`¡Bienvenido, ${username}!`, 'success')
+          toast.addToast(`Welcome, ${username}!`, 'success')
           return true
         } catch (error) {
-          const message = error instanceof Error ? error.message : 'Error de conexión'
+          const message = error instanceof Error ? error.message : 'Connection error'
           toast.addToast(message, 'error')
           set({ isAuthenticated: false, username: null, isLoading: false })
           return false
@@ -49,15 +49,14 @@ export const useAuthStore = create<AuthState>()(
         try {
           await apiLogout()
           set({ isAuthenticated: false, username: null, isLoading: false })
-          toast.addToast('Sesión cerrada', 'info')
+          toast.addToast('Logged out', 'info')
         } catch {
-          // Aunque falle el request, limpiamos estado local
+          // Even if the request fails, clear local state
           set({ isAuthenticated: false, username: null, isLoading: false })
         }
       },
 
       checkAuth: async () => {
-        // Solo verificar si ya tenemos estado de auth
         const { isAuthenticated } = get()
         if (!isAuthenticated) return
 
@@ -65,13 +64,12 @@ export const useAuthStore = create<AuthState>()(
           const user = await getMe()
           set({ isAuthenticated: true, username: user.username })
         } catch {
-          // Token inválido o expirado
           set({ isAuthenticated: false, username: null })
         }
       },
     }),
     {
-      name: 'auth-storage', // localStorage key
+      name: 'auth-storage',
       partialize: (state) => ({
         isAuthenticated: state.isAuthenticated,
         username: state.username,

@@ -29,7 +29,7 @@ export default async function PostPage({ params }: PageProps) {
           className="mb-10 inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-300"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Volver al inicio
+          Back to home
         </Link>
 
         {/* Cover Image */}
