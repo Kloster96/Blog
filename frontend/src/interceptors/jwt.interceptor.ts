@@ -35,7 +35,9 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
   // Si el body es FormData, no seteamos Content-Type
   if (config.body instanceof FormData) {
-    delete config.headers['Content-Type']
+    if (config.headers) {
+      delete config.headers['Content-Type']
+    }
   }
 
   try {
