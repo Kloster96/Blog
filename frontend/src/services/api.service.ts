@@ -42,7 +42,9 @@ async function fetchJSON<T>(
   // Si body es FormData, no seteamos Content-Type (el browser lo hace)
   if (body instanceof FormData) {
     fetchOptions.body = body
-    delete fetchOptions.headers['Content-Type']
+    if (fetchOptions.headers) {
+      delete (fetchOptions.headers as Record<string, string>)['Content-Type']
+    }
   } else if (body) {
     fetchOptions.body = JSON.stringify(body)
   }
