@@ -74,7 +74,7 @@ export async function getAdminPosts(): Promise<Post[]> {
 export async function createPost(data: PostFormData): Promise<Post> {
   const raw = await fetchJSON<ApiPostResponse>(`${API_URL}/api/posts`, {
     method: 'POST',
-    body: data,
+    body: data as unknown as Record<string, unknown>,
   })
   return adaptPost(raw)
 }
@@ -90,7 +90,7 @@ export async function updatePost(
     `${API_URL}/api/posts/${id}`,
     {
       method: 'PUT',
-      body: data,
+      body: data as unknown as Record<string, unknown>,
     }
   )
   return adaptPost(raw)
