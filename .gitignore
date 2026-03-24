@@ -50,3 +50,5 @@ next-env.d.ts
 .vercel
 .turbo
 coverage/
+.atl/
+blog.md
