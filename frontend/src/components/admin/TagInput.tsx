@@ -20,7 +20,7 @@ export function TagInput({ value, onChange, placeholder }: TagInputProps) {
 
   const addTags = (rawInput: string) => {
     const newTags = parseTags(rawInput)
-    const merged = [...new Set([...value, ...newTags])]
+    const merged = Array.from(new Set([...value, ...newTags]))
     onChange(merged)
     setInputValue('')
   }
