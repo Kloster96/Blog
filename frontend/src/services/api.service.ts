@@ -14,8 +14,7 @@ export class ApiError extends Error {
   }
 }
 
-interface FetchOptions extends RequestInit {
-  // Permite body como objeto (se stringify automáticamente)
+interface FetchOptions extends Omit<RequestInit, 'body'> {
   body?: Record<string, unknown> | FormData
 }
 
