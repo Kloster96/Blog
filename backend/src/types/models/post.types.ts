@@ -3,8 +3,7 @@
 // ============================================================
 
 import { Document, Types } from 'mongoose'
-
-export type PostStatus = 'draft' | 'published'
+import type { PostStatus } from '../dto/post.dto'
 
 export interface IPost {
   title: string

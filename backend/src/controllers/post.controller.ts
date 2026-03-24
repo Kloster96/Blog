@@ -46,7 +46,7 @@ export async function getBySlug(
 ): Promise<void> {
   try {
     const { slug } = req.params
-    const post = await postService.findBySlug(slug)
+    const post = await postService.findBySlug(String(slug))
 
     if (!post) {
       res.status(404).json({ error: 'Not Found', message: 'Post no encontrado' })
@@ -117,7 +117,7 @@ export async function update(
     const { id } = req.params
     const data = req.body as UpdatePostRequest
 
-    const post = await postService.update(id, data)
+    const post = await postService.update(String(id), data)
     res.json(post)
   } catch (error) {
     if (error instanceof Error && error.message === 'Post no encontrado') {
@@ -139,7 +139,7 @@ export async function remove(
 ): Promise<void> {
   try {
     const { id } = req.params
-    await postService.delete(id)
+    await postService.delete(String(id))
     res.json({ message: 'Post eliminado' })
   } catch (error) {
     if (error instanceof Error && error.message === 'Post no encontrado') {
