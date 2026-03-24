@@ -31,7 +31,7 @@ export async function login(
 ): Promise<LoginResponse> {
   return fetchJSON<LoginResponse>(`${API_URL}/api/auth/login`, {
     method: 'POST',
-    body: { username, password } as LoginRequest,
+    body: { username, password },
   })
 }
 
