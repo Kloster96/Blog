@@ -1,66 +1,81 @@
-# ============================================================
-# Blog Fullstack — Clean Architecture
-# ============================================================
+# Tech Blog — Fullstack CMS
 
-Blog técnico con panel de administración CMS. Backend en **Express + MongoDB** y Frontend en **Next.js 14 App Router**.
+A professional tech blog with admin panel, built with **Next.js 14 App Router** and **Express + MongoDB**. Following Clean Architecture principles.
 
-## 🏗️ Arquitectura
+## 🔗 Live Demo
+
+| Service | URL |
+|---------|-----|
+| **Frontend** | [https://blog-pciwe9gpx-kloster96s-projects.vercel.app](https://blog-pciwe9gpx-kloster96s-projects.vercel.app) |
+| **Backend API** | [https://blog-ggjx.onrender.com](https://blog-ggjx.onrender.com) |
+| **Health Check** | [https://blog-ggjx.onrender.com/health](https://blog-ggjx.onrender.com/health) |
+
+## 📸 Screenshots
+
+- **Home**: Dark premium design with glassmorphism navbar
+- **Admin Login**: Centered card with dark inputs
+- **Dashboard**: CRUD table with status badges
+- **Editor**: Markdown editor with Write/Preview toggle
+- **Image Upload**: Drag-and-drop to Cloudinary
+
+## 🏗️ Architecture
 
 ```
 blog/
-├── backend/          # API REST — Express + MongoDB
+├── backend/              # REST API — Express + MongoDB
 │   └── src/
-│       ├── config/   # Env vars, DB connection
-│       ├── types/    # DTOs e interfaces TypeScript
-│       ├── models/   # Mongoose schemas
-│       ├── services/ # Lógica de negocio
-│       ├── controllers/
-│       ├── middleware/
-│       └── routes/
-├── frontend/         # Next.js 14 App Router
+│       ├── config/       # Env vars, DB connection
+│       ├── types/        # DTOs and TypeScript interfaces
+│       ├── models/       # Mongoose schemas
+│       ├── services/     # Business logic
+│       ├── controllers/  # HTTP handlers
+│       ├── middleware/   # Auth, error handling
+│       └── routes/       # Route definitions
+├── frontend/             # Next.js 14 App Router
 │   └── src/
-│       ├── models/   # Tipos TypeScript
-│       ├── adapters/ # Transformación de datos API
-│       ├── services/ # Llamadas HTTP
-│       ├── store/    # Zustand (auth + toasts)
+│       ├── models/       # TypeScript interfaces
+│       ├── adapters/     # API data mappers
+│       ├── services/     # HTTP calls
+│       ├── store/        # Zustand (auth + toasts)
+│       ├── interceptors/ # JWT interceptor
 │       ├── components/
-│       │   ├── ui/   # Componentes aislados
-│       │   ├── blog/ # Componentes del blog público
-│       │   ├── admin/# Componentes del admin
-│       │   └── layout/
-│       └── app/      # Pages (App Router)
-└── blog.md           # Especificación original
+│       │   ├── ui/       # Isolated components
+│       │   ├── blog/     # Blog components
+│       │   ├── admin/    # Admin components
+│       │   └── layout/   # Layout wrappers
+│       └── app/          # Pages (App Router)
+└── README.md
 ```
 
-## 🚀 Setup
+## 🚀 Local Setup
 
-### Prerrequisitos
+### Prerequisites
 
 - Node.js 20+
-- MongoDB (local o Atlas)
-- Cuenta de Cloudinary (gratuita)
+- MongoDB (local or Atlas)
+- Cloudinary account (free)
 
 ### Backend
 
 ```bash
 cd backend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Copiar y configurar variables de entorno
+# Copy and configure environment variables
 cp .env.example .env
-# Editar .env con tus credenciales
+# Edit .env with your credentials
 
-# Crear carpeta para uploads temporales
+# Create uploads folder
 mkdir uploads
 
-# Poblar base de datos (primer uso)
+# Populate database (first time only)
 npm run seed
 
-# Correr en desarrollo
+# Start development server
 npm run dev
-# API disponible en http://localhost:4000
+# API available at http://localhost:4000
 ```
 
 ### Frontend
@@ -68,101 +83,114 @@ npm run dev
 ```bash
 cd frontend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Copiar variables de entorno
+# Copy environment variables
 cp .env.example .env.local
 
-# Correr en desarrollo
+# Start development server
 npm run dev
-# Disponible en http://localhost:3000
+# Available at http://localhost:3000
 ```
 
-### Variables de entorno requeridas
+## 🔐 Environment Variables
 
-**Backend (.env):**
+### Backend (.env)
 
-| Variable | Descripción |
+| Variable | Description |
 |----------|-------------|
-| `PORT` | Puerto del servidor (default: 4000) |
-| `MONGO_URI` | Connection string de MongoDB |
-| `JWT_SECRET` | Clave secreta para JWT (mínimo 32 caracteres) |
-| `CLOUDINARY_CLOUD_NAME` | Cloud name de Cloudinary |
-| `CLOUDINARY_API_KEY` | API Key de Cloudinary |
-| `CLOUDINARY_API_SECRET` | API Secret de Cloudinary |
-| `FRONTEND_URL` | URL del frontend (para CORS) |
+| `PORT` | Server port (default: 4000) |
+| `NODE_ENV` | Environment (development/production) |
+| `MONGO_URI` | MongoDB connection string |
+| `JWT_SECRET` | Secret key for JWT (min 32 chars) |
+| `JWT_EXPIRES_IN` | JWT expiration (e.g., 365d) |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+| `FRONTEND_URL` | Frontend URL (for CORS) |
 
-**Frontend (.env.local):**
+### Frontend (.env.local)
 
-| Variable | Descripción |
+| Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | URL del backend (default: http://localhost:4000) |
+| `NEXT_PUBLIC_API_URL` | Backend API URL |
 
-## 👤 Credenciales por defecto
+## 👤 Default Credentials
 
-Después de correr `npm run seed`:
+After running `npm run seed`:
 
 - **Username**: `admin`
 - **Password**: `admin123`
 
-## 🔐 Seguridad
+## 🔐 Security
 
-- JWT almacenado en **httpOnly Cookie** (no en localStorage)
-- `SameSite=Strict` — previene CSRF
-- Passwords hasheados con **bcrypt** (12 rounds)
-- Helmet + CORS configurados
+- JWT stored in **httpOnly Cookie** (not localStorage)
+- `SameSite=Strict` — prevents CSRF
+- Passwords hashed with **bcrypt** (12 rounds)
+- Helmet + CORS configured
 
 ## 📡 API Endpoints
 
 ### Auth
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| POST | /api/auth/login | No | Login (setea cookie) |
-| POST | /api/auth/logout | No | Logout (limpia cookie) |
-| GET | /api/auth/me | JWT | Datos del usuario actual |
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | /api/auth/login | No | Login (sets cookie) |
+| POST | /api/auth/logout | No | Logout (clears cookie) |
+| GET | /api/auth/me | JWT | Current user data |
 
-### Posts (Público)
+### Posts (Public)
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| GET | /api/posts | No | Lista publicados (paginable) |
-| GET | /api/posts/:slug | No | Detalle de post |
-| GET | /api/admin/posts | JWT | Todos los posts (admin) |
-| POST | /api/posts | JWT | Crear post |
-| PUT | /api/posts/:id | JWT | Actualizar post |
-| DELETE | /api/posts/:id | JWT | Eliminar post |
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| GET | /api/posts | No | List published (paginated) |
+| GET | /api/posts/:slug | No | Post detail |
+
+### Posts (Admin)
+
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| GET | /api/admin/posts | JWT | All posts (including drafts) |
+| POST | /api/posts | JWT | Create post |
+| PUT | /api/posts/:id | JWT | Update post |
+| DELETE | /api/posts/:id | JWT | Delete post |
 
 ### Upload
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| POST | /api/upload | JWT | Subir imagen (multipart) |
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | /api/upload | JWT | Upload image (multipart) |
 
 ## 📝 Features
 
-- [x] CRUD completo de posts (draft + published)
-- [x] Slug automático (kebab-case con colisión handling)
-- [x] Upload de imágenes a Cloudinary
-- [x] Editor Markdown con preview (Write/Preview toggle)
-- [x] SSG + ISR para páginas públicas (Next.js)
-- [x] Panel admin protegido con JWT
-- [x] Estado global con Zustand
-- [x] Sistema de toasts
+- [x] Full CRUD for posts (draft + published)
+- [x] Automatic slug generation (kebab-case with collision handling)
+- [x] Image upload to Cloudinary
+- [x] Markdown editor with Write/Preview toggle
+- [x] SSG + ISR for public pages (Next.js)
+- [x] JWT-protected admin panel
+- [x] Global state with Zustand
+- [x] Toast notification system
 - [x] TypeScript strict mode
 - [x] Clean Architecture (Backend)
+- [x] Premium dark mode UI (Vercel/Linear inspired)
+- [x] Glassmorphism navbar
+- [x] Responsive design
 
-## 🧪 Testing Manual
+## 🛠️ Tech Stack
 
-1. **Blog público**: Visitá http://localhost:3000
-2. **Login admin**: http://localhost:3000/admin/login
-   - Usuario: `admin`
-   - Contraseña: `admin123`
-3. **Dashboard**: Creá, editá, eliminá posts
-4. **Editor**: Probá el toggle Write/Preview
-5. **Publicar**: Cambiá un draft a published y verificá que aparece en Home
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 14, React 18, TypeScript |
+| Styling | Tailwind CSS, Lucide Icons |
+| State | Zustand |
+| Backend | Express.js, Node.js |
+| Database | MongoDB Atlas, Mongoose |
+| Auth | JWT (httpOnly cookies) |
+| Images | Cloudinary, Multer |
+| Deploy | Vercel (frontend), Render (backend) |
 
-## 📄 Licencia
+## 📄 License
 
 ISC
