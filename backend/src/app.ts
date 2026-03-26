@@ -22,7 +22,25 @@ app.use(
 )
 app.use(
   cors({
-    origin: env.frontendUrl,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true)
+
+      // Allow localhost and any vercel.app domain
+      const allowed = [
+        'http://localhost:3000',
+        'http://localhost:4000',
+        env.frontendUrl,
+      ]
+      const isVercel = origin.endsWith('.vercel.app')
+      const isAllowed = allowed.includes(origin) || isVercel
+
+      if (isAllowed) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true, // Permitir cookies cross-origin
   })
 )
