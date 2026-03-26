@@ -29,9 +29,9 @@ export async function login(
     // Setea cookie httpOnly con el JWT
     res.cookie('auth_token', token, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: env.nodeEnv === 'production' ? 'none' : 'strict',
       secure: env.nodeEnv === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
 
     res.json({ message: 'Login exitoso', user })
@@ -50,7 +50,7 @@ export async function login(
 export function logout(_req: Request, res: Response): void {
   res.clearCookie('auth_token', {
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: env.nodeEnv === 'production' ? 'none' : 'strict',
     secure: env.nodeEnv === 'production',
   })
 
