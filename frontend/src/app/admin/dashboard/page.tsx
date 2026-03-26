@@ -5,12 +5,9 @@
 // ============================================================
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { Plus } from 'lucide-react'
 import { getAdminPosts, deletePost, updatePost } from '@/services/post.service'
 import { PostTable } from '@/components/admin/PostTable'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
-import { Button } from '@/components/ui/Button'
 import type { Post } from '@/models'
 import { useToastStore } from '@/store/useToastStore'
 import { useRouter } from 'next/navigation'
@@ -73,19 +70,13 @@ export default function DashboardPage() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="mt-1 text-sm text-zinc-500">
             {posts.length} post{posts.length !== 1 ? 's' : ''} total
           </p>
         </div>
-        <Link href="/admin/editor">
-          <Button>
-            <Plus className="h-4 w-4" />
-            New Post
-          </Button>
-        </Link>
       </div>
 
       {/* Table */}
