@@ -1,14 +1,12 @@
 // ============================================================
 // Upload Controller
 // ============================================================
-// Implementación completa en Milestone 4
 
 import { Request, Response, NextFunction } from 'express'
 import { v2 as cloudinary } from 'cloudinary'
-import { unlinkSync } from 'fs'
 import { env } from '../config'
 
-// Configurar Cloudinary
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: env.cloudinary.cloudName,
   api_key: env.cloudinary.apiKey,
@@ -17,7 +15,7 @@ cloudinary.config({
 
 /**
  * POST /api/upload
- * Admin: subir imagen a Cloudinary
+ * Admin: upload image to Cloudinary
  */
 export async function uploadImage(
   req: Request,
@@ -28,25 +26,26 @@ export async function uploadImage(
     const file = req.file
 
     if (!file) {
-      res.status(400).json({ error: 'Bad Request', message: 'No se recibió archivo' })
+      res.status(400).json({ error: 'Bad Request', message: 'No file received' })
       return
     }
 
-    // Subir a Cloudinary
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: 'blog-covers',
-      allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'],
-      transformation: [
-        { width: 1200, height: 630, crop: 'fill', gravity: 'auto' },
-      ],
+    // Upload buffer to Cloudinary
+    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        {
+          folder: 'blog-covers',
+          allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+          transformation: [
+            { width: 1200, height: 630, crop: 'fill', gravity: 'auto' },
+          ],
+        },
+        (error, result) => {
+          if (error) reject(error)
+          else resolve(result as { secure_url: string })
+        }
+      ).end(file.buffer)
     })
-
-    // Limpiar archivo temporal
-    try {
-      unlinkSync(file.path)
-    } catch {
-      console.warn(`⚠️  No se pudo eliminar archivo temporal: ${file.path}`)
-    }
 
     res.json({ url: result.secure_url })
   } catch (error) {

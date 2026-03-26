@@ -1,13 +1,11 @@
 // ============================================================
 // Upload Middleware (Multer)
 // ============================================================
-// Implementación completa en Milestone 4
 
 import multer from 'multer'
-import path from 'path'
 import { Request } from 'express'
 
-// Tipos permitidos
+// Allowed types
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
@@ -17,19 +15,10 @@ const ALLOWED_MIME_TYPES = [
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-// Storage: guardar en carpeta temporal del sistema
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, process.env.UPLOAD_TMP_DIR ?? './uploads')
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-    const ext = path.extname(file.originalname)
-    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`)
-  },
-})
+// Memory storage: no temp folder needed
+const storage = multer.memoryStorage()
 
-// File filter: solo imágenes
+// File filter: images only
 const fileFilter = (
   _req: Request,
   file: Express.Multer.File,
@@ -40,7 +29,7 @@ const fileFilter = (
   } else {
     cb(
       new Error(
-        `Tipo de archivo no permitido: ${file.mimetype}. Solo se permiten: jpg, png, webp, gif`
+        `File type not allowed: ${file.mimetype}. Only: jpg, png, webp, gif`
       )
     )
   }
