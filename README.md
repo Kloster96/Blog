@@ -6,7 +6,7 @@ A professional tech blog with admin panel, built with **Next.js 14 App Router** 
 
 | Service | URL |
 |---------|-----|
-| **Frontend** | [https://blog-pciwe9gpx-kloster96s-projects.vercel.app](https://blog-pciwe9gpx-kloster96s-projects.vercel.app) |
+| **Frontend** | [https://blog-mnv81sh2l-kloster96s-projects.vercel.app](https://blog-mnv81sh2l-kloster96s-projects.vercel.app) |
 | **Backend API** | [https://blog-ggjx.onrender.com](https://blog-ggjx.onrender.com) |
 | **Health Check** | [https://blog-ggjx.onrender.com/health](https://blog-ggjx.onrender.com/health) |
 
