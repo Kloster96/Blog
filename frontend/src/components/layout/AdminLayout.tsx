@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, LogOut, PenLine } from 'lucide-react'
+import { LayoutDashboard, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/useAuthStore'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
@@ -19,7 +19,6 @@ interface AdminLayoutProps {
 
 const adminNavLinks = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/editor', label: 'New Post', icon: PenLine },
 ]
 
 export function AdminLayout({ children }: AdminLayoutProps) {
