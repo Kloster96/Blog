@@ -1,14 +1,22 @@
 // ============================================================
-// Home Page — Hero Section + SSG + ISR
+// Home Page — Hero Section + SSG + ISR + Tag Filtering
 // ============================================================
 
+import Link from 'next/link'
 import { Suspense } from 'react'
+import { X } from 'lucide-react'
 import { PostGrid } from '@/components/blog/PostGrid'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
 export const revalidate = 60
 
-export default async function HomePage() {
+interface PageProps {
+  searchParams: { tag?: string }
+}
+
+export default async function HomePage({ searchParams }: PageProps) {
+  const tag = searchParams.tag
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -24,7 +32,7 @@ export default async function HomePage() {
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1">
             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             <span className="text-xs text-zinc-400">
-              Latest posts
+              {tag ? `Filtered by: ${tag}` : 'Latest posts'}
             </span>
           </div>
 
@@ -46,6 +54,23 @@ export default async function HomePage() {
         <div className="mx-auto mt-16 max-w-5xl border-t border-white/[0.06]" />
       </section>
 
+      {/* Tag filter indicator */}
+      {tag && (
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2">
+            <span className="text-sm text-zinc-300">
+              Showing posts tagged: <span className="font-medium text-white">{tag}</span>
+            </span>
+            <Link
+              href="/"
+              className="rounded-full p-1 text-zinc-500 transition-colors hover:bg-white/[0.08] hover:text-white"
+            >
+              <X className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Posts Grid */}
       <section className="mx-auto max-w-5xl px-6 pb-20">
         <Suspense
@@ -55,7 +80,7 @@ export default async function HomePage() {
             </div>
           }
         >
-          <PostGrid />
+          <PostGrid tag={tag} />
         </Suspense>
       </section>
     </main>
