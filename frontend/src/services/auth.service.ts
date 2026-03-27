@@ -1,5 +1,5 @@
 // ============================================================
-// Auth Service — Llamadas a la API de autenticación
+// Auth Service
 // ============================================================
 
 import { fetchJSON, API_URL } from './api.service'
@@ -11,19 +11,15 @@ interface LoginRequest {
 
 interface LoginResponse {
   message: string
-  user?: {
+  token: string
+  user: {
     username: string
     role: string
   }
 }
 
-interface MeResponse {
-  username: string
-  role: string
-}
-
 /**
- * Login — el backend setea la cookie httpOnly automáticamente
+ * Login — returns JWT token in response body
  */
 export async function login(
   username: string,
@@ -36,17 +32,10 @@ export async function login(
 }
 
 /**
- * Logout — el backend limpia la cookie automáticamente
+ * Logout — clear local state
  */
 export async function logout(): Promise<{ message: string }> {
   return fetchJSON<{ message: string }>(`${API_URL}/api/auth/logout`, {
     method: 'POST',
   })
-}
-
-/**
- * Validar sesión actual — verifica si la cookie JWT es válida
- */
-export async function getMe(): Promise<MeResponse> {
-  return fetchJSON<MeResponse>(`${API_URL}/api/auth/me`)
 }

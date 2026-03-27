@@ -89,7 +89,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             {username}
           </div>
           <button
-            onClick={() => void logout()}
+            onClick={logout}
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-500 transition-colors hover:bg-white/[0.03] hover:text-red-400"
           >
             <LogOut className="h-4 w-4" />

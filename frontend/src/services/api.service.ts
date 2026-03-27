@@ -1,5 +1,5 @@
 // ============================================================
-// API Service — Wrapper de fetch con manejo de cookies
+// API Service — Fetch wrapper with JWT in Authorization header
 // ============================================================
 
 import { API_URL } from '@/lib/constants'
@@ -19,10 +19,24 @@ interface FetchOptions extends Omit<RequestInit, 'body'> {
 }
 
 /**
- * Fetch wrapper que:
- * - Convierte body objeto → JSON automáticamente
- * - Maneja errores HTTP (4xx → ApiError, 5xx → ApiError)
- * - Incluye credenciales (cookies) automáticamente
+ * Get JWT token from Zustand persisted storage
+ */
+function getAuthToken(): string | null {
+  try {
+    const stored = localStorage.getItem('auth-storage')
+    if (!stored) return null
+    const parsed = JSON.parse(stored)
+    return parsed?.state?.token ?? null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Fetch wrapper:
+ * - Converts body object → JSON
+ * - Handles HTTP errors
+ * - Sends JWT in Authorization header
  */
 async function fetchJSON<T>(
   url: string,
@@ -30,21 +44,30 @@ async function fetchJSON<T>(
 ): Promise<T> {
   const { body, ...rest } = options
 
-  const fetchOptions: RequestInit = {
-    ...rest,
-    credentials: 'include', // Enviar cookies automáticamente
-    headers: {
-      'Content-Type': 'application/json',
-      ...rest.headers,
-    },
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
   }
 
-  // Si body es FormData, no seteamos Content-Type (el browser lo hace)
+  // Merge any custom headers
+  if (rest.headers) {
+    Object.assign(headers, rest.headers as Record<string, string>)
+  }
+
+  // Add JWT token if available
+  const token = getAuthToken()
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+
+  const fetchOptions: RequestInit = {
+    ...rest,
+    headers,
+  }
+
+  // If body is FormData, remove Content-Type (browser sets it)
   if (body instanceof FormData) {
     fetchOptions.body = body
-    if (fetchOptions.headers) {
-      delete (fetchOptions.headers as Record<string, string>)['Content-Type']
-    }
+    delete headers['Content-Type']
   } else if (body) {
     fetchOptions.body = JSON.stringify(body)
   }
@@ -58,7 +81,7 @@ async function fetchJSON<T>(
       const errorData = await response.json()
       errorMessage = errorData.message ?? errorData.error ?? errorMessage
     } catch {
-      // Response no era JSON
+      // Response wasn't JSON
     }
 
     throw new ApiError(errorMessage, response.status)

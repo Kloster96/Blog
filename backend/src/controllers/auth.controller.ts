@@ -26,15 +26,8 @@ export async function login(
 
     const { token, user } = await authService.login(username, password)
 
-    // Setea cookie httpOnly con el JWT
-    res.cookie('auth_token', token, {
-      httpOnly: true,
-      sameSite: env.nodeEnv === 'production' ? 'none' : 'strict',
-      secure: env.nodeEnv === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
-
-    res.json({ message: 'Login exitoso', user })
+    // Return token in response body (frontend stores in Zustand)
+    res.json({ message: 'Login successful', token, user })
   } catch (error) {
     if (error instanceof Error && error.message === 'Credenciales inválidas') {
       res.status(401).json({ error: 'Unauthorized', message: 'Credenciales inválidas' })
@@ -48,13 +41,7 @@ export async function login(
  * POST /api/auth/logout
  */
 export function logout(_req: Request, res: Response): void {
-  res.clearCookie('auth_token', {
-    httpOnly: true,
-    sameSite: env.nodeEnv === 'production' ? 'none' : 'strict',
-    secure: env.nodeEnv === 'production',
-  })
-
-  res.json({ message: 'Logout exitoso' })
+  res.json({ message: 'Logged out' })
 }
 
 /**
