@@ -10,6 +10,7 @@ import { useToastStore } from './useToastStore'
 interface AuthState {
   isAuthenticated: boolean
   username: string | null
+  token: string | null
   isLoading: boolean
 
   // Actions
@@ -22,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       isAuthenticated: false,
       username: null,
+      token: null,
       isLoading: false,
 
       login: async (username: string, password: string) => {
@@ -33,6 +35,7 @@ export const useAuthStore = create<AuthState>()(
           set({
             isAuthenticated: true,
             username: response.user.username,
+            token: response.token,
             isLoading: false,
           })
           toast.addToast(`Welcome, ${response.user.username}!`, 'success')
@@ -40,14 +43,14 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Connection error'
           toast.addToast(message, 'error')
-          set({ isAuthenticated: false, username: null, isLoading: false })
+          set({ isAuthenticated: false, username: null, token: null, isLoading: false })
           return false
         }
       },
 
       logout: () => {
         apiLogout()
-        set({ isAuthenticated: false, username: null, isLoading: false })
+        set({ isAuthenticated: false, username: null, token: null, isLoading: false })
         useToastStore.getState().addToast('Logged out', 'info')
       },
     }),
@@ -56,6 +59,7 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         isAuthenticated: state.isAuthenticated,
         username: state.username,
+        token: state.token,
       }),
     }
   )

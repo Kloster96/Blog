@@ -26,22 +26,16 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true)
 
-      // Allow localhost and any vercel.app domain
-      const allowed = [
-        'http://localhost:3000',
-        'http://localhost:4000',
-        env.frontendUrl,
-      ]
+      // Allow any vercel.app domain (both frontend and potential future deployments)
       const isVercel = origin.endsWith('.vercel.app')
-      const isAllowed = allowed.includes(origin) || isVercel
 
-      if (isAllowed) {
+      if (isVercel || origin === 'http://localhost:3000' || origin === 'http://localhost:4000') {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
       }
     },
-    credentials: true, // Permitir cookies cross-origin
+    credentials: true,
   })
 )
 app.use(morgan(env.nodeEnv === 'development' ? 'dev' : 'combined'))
