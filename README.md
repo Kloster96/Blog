@@ -1,196 +1,144 @@
-# Tech Blog — Fullstack CMS
+# 🚀 Fullstack Developer Portfolio
 
-A professional tech blog with admin panel, built with **Next.js 14 App Router** and **Express + MongoDB**. Following Clean Architecture principles.
+### Hi, I'm a Fullstack Developer specializing in modern web applications. This is my flagship project — a production-ready blog built with technologies companies actually use.
 
-## 🔗 Live Demo
+---
 
-| Service | URL |
-|---------|-----|
-| **Frontend** | [https://blog-pciwe9gpx-kloster96s-projects.vercel.app](https://blog-pciwe9gpx-kloster96s-projects.vercel.app) |
-| **Backend API** | [https://blog-ggjx.onrender.com](https://blog-ggjx.onrender.com) |
-| **Health Check** | [https://blog-ggjx.onrender.com/health](https://blog-ggjx.onrender.com/health) |
+## 🎯 Project Overview
 
-## 📸 Screenshots
+A professional tech blog with a complete admin CMS, deployed to production and handling real traffic.
 
-- **Home**: Dark premium design with glassmorphism navbar
-- **Admin Login**: Centered card with dark inputs
-- **Dashboard**: CRUD table with status badges
-- **Editor**: Markdown editor with Write/Preview toggle
-- **Image Upload**: Drag-and-drop to Cloudinary
+**Stack**: Next.js 14 • Express • MongoDB • TypeScript • JWT • Tailwind
+
+**Live Demo**: [https://blog-nl4oljti2-kloster96s-projects.vercel.app](https://blog-nl4oljti2-kloster96s-projects.vercel.app)
+
+**API**: [https://blog-ggjx.onrender.com](https://blog-ggjx.onrender.com)
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|----------|--------------|
+| **Frontend** | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS |
+| **Backend** | Express.js, Node.js, JWT, bcrypt |
+| **Database** | MongoDB Atlas, Mongoose ODM |
+| **State** | Zustand (client), Context API |
+| **Images** | Cloudinary + Multer |
+| **DevOps** | Vercel, Render, Git |
+
+---
+
+## 📊 Key Features Implemented
+
+- ✅ **Full CRUD** — Create, read, update, delete posts with draft/published states
+- ✅ **Authentication** — JWT in httpOnly cookies (not localStorage — security best practice)
+- ✅ **Image Upload** — Drag-and-drop to Cloudinary with preview
+- ✅ **Markdown Editor** — Write/Preview toggle with live rendering
+- ✅ **SEO Optimized** — SSG + ISR with proper metadata
+- ✅ **TypeScript** — Strict mode throughout the entire codebase
+- ✅ **Clean Architecture** — Separated layers (routes → controllers → services → models)
+- ✅ **Error Handling** — Global error middleware, consistent API responses
+
+---
 
 ## 🏗️ Architecture
 
 ```
 blog/
-├── backend/              # REST API — Express + MongoDB
+├── backend/                    # REST API — Express + MongoDB
 │   └── src/
-│       ├── config/       # Env vars, DB connection
-│       ├── types/        # DTOs and TypeScript interfaces
-│       ├── models/       # Mongoose schemas
-│       ├── services/     # Business logic
-│       ├── controllers/  # HTTP handlers
-│       ├── middleware/   # Auth, error handling
-│       └── routes/       # Route definitions
-├── frontend/             # Next.js 14 App Router
+│       ├── config/             # Environment & DB connection
+│       ├── types/              # DTOs & interfaces
+│       ├── models/             # Mongoose schemas
+│       ├── services/           # Business logic
+│       ├── controllers/        # HTTP handlers
+│       ├── middleware/         # Auth & error handling
+│       └── routes/            # Route definitions
+│
+├── frontend/                   # Next.js 14 App Router
 │   └── src/
-│       ├── models/       # TypeScript interfaces
-│       ├── adapters/     # API data mappers
-│       ├── services/     # HTTP calls
-│       ├── store/        # Zustand (auth + toasts)
-│       ├── interceptors/ # JWT interceptor
-│       ├── components/
-│       │   ├── ui/       # Isolated components
-│       │   ├── blog/     # Blog components
-│       │   ├── admin/    # Admin components
-│       │   └── layout/   # Layout wrappers
-│       └── app/          # Pages (App Router)
+│       ├── models/             # TypeScript interfaces
+│       ├── adapters/          # API data mappers
+│       ├── services/          # API calls
+│       ├── store/             # Zustand (auth, toasts)
+│       ├── interceptors/      # JWT injection
+│       ├── components/        # UI, blog, admin, layout
+│       └── app/               # Pages (App Router)
+│
 └── README.md
 ```
 
-## 🚀 Local Setup
+---
 
-### Prerequisites
+## 🔐 Security Highlights
 
-- Node.js 20+
-- MongoDB (local or Atlas)
-- Cloudinary account (free)
+- JWT stored in **httpOnly cookies** — inaccessible to JavaScript (prevents XSS attacks)
+- `SameSite=Strict` — prevents CSRF
+- Passwords hashed with **bcrypt** (12 rounds)
+- Helmet middleware for security headers
+- CORS properly configured for production domains
 
-### Backend
+---
+
+## 🚀 Getting Started (Local)
 
 ```bash
+# Backend
 cd backend
-
-# Install dependencies
 npm install
-
-# Copy and configure environment variables
 cp .env.example .env
-# Edit .env with your credentials
-
-# Create uploads folder
 mkdir uploads
+npm run seed      # Populates demo data
+npm run dev       # http://localhost:4000
 
-# Populate database (first time only)
-npm run seed
-
-# Start development server
-npm run dev
-# API available at http://localhost:4000
-```
-
-### Frontend
-
-```bash
+# Frontend (new terminal)
 cd frontend
-
-# Install dependencies
 npm install
-
-# Copy environment variables
 cp .env.example .env.local
-
-# Start development server
-npm run dev
-# Available at http://localhost:3000
+npm run dev       # http://localhost:3000
 ```
 
-## 🔐 Environment Variables
-
-### Backend (.env)
-
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Server port (default: 4000) |
-| `NODE_ENV` | Environment (development/production) |
-| `MONGO_URI` | MongoDB connection string |
-| `JWT_SECRET` | Secret key for JWT (min 32 chars) |
-| `JWT_EXPIRES_IN` | JWT expiration (e.g., 365d) |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
-| `CLOUDINARY_API_KEY` | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `FRONTEND_URL` | Frontend URL (for CORS) |
-
-### Frontend (.env.local)
-
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Backend API URL |
-
-## 👤 Default Credentials
-
-After running `npm run seed`:
-
+### Default Credentials
 - **Username**: `admin`
 - **Password**: `admin123`
 
-## 🔐 Security
+---
 
-- JWT stored in **httpOnly Cookie** (not localStorage)
-- `SameSite=Strict` — prevents CSRF
-- Passwords hashed with **bcrypt** (12 rounds)
-- Helmet + CORS configured
+## 📈 API Endpoints
 
-## 📡 API Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/login` | Authenticate (sets cookie) |
+| GET | `/api/posts` | List published posts (paginated) |
+| GET | `/api/posts/:slug` | Single post detail |
+| GET | `/api/admin/posts` | All posts (admin, requires JWT) |
+| POST | `/api/posts` | Create post (requires JWT) |
+| PUT | `/api/posts/:id` | Update post (requires JWT) |
+| DELETE | `/api/posts/:id` | Delete post (requires JWT) |
+| POST | `/api/upload` | Upload image to Cloudinary |
 
-### Auth
+---
 
-| Method | Route | Auth | Description |
-|--------|-------|------|-------------|
-| POST | /api/auth/login | No | Login (sets cookie) |
-| POST | /api/auth/logout | No | Logout (clears cookie) |
-| GET | /api/auth/me | JWT | Current user data |
+## 📝 What I Learned
 
-### Posts (Public)
+Building this project taught me:
 
-| Method | Route | Auth | Description |
-|--------|-------|------|-------------|
-| GET | /api/posts | No | List published (paginated) |
-| GET | /api/posts/:slug | No | Post detail |
+- **Production deployments** — Vercel + Render, environment variables, CORS in production
+- **Security** — Why httpOnly cookies > localStorage for JWT, CSRF protection
+- **TypeScript** — Strict typing, interfaces, generics, avoiding `any`
+- **Clean Architecture** — Separation of concerns, maintainable codebase
+- **State management** — When to use Zustand vs React Context
+- **SEO** — SSG/ISR patterns, metadata, semantic HTML
 
-### Posts (Admin)
+---
 
-| Method | Route | Auth | Description |
-|--------|-------|------|-------------|
-| GET | /api/admin/posts | JWT | All posts (including drafts) |
-| POST | /api/posts | JWT | Create post |
-| PUT | /api/posts/:id | JWT | Update post |
-| DELETE | /api/posts/:id | JWT | Delete post |
+## 📫 Contact
 
-### Upload
+- **GitHub**: [github.com/Kloster96](https://github.com/Kloster96)
+- **Email**: kloster.dev@gmail.com
+- **LinkedIn**: [linkedin.com/in/kloster-dev](https://linkedin.com/in/kloster-dev)
 
-| Method | Route | Auth | Description |
-|--------|-------|------|-------------|
-| POST | /api/upload | JWT | Upload image (multipart) |
+---
 
-## 📝 Features
-
-- [x] Full CRUD for posts (draft + published)
-- [x] Automatic slug generation (kebab-case with collision handling)
-- [x] Image upload to Cloudinary
-- [x] Markdown editor with Write/Preview toggle
-- [x] SSG + ISR for public pages (Next.js)
-- [x] JWT-protected admin panel
-- [x] Global state with Zustand
-- [x] Toast notification system
-- [x] TypeScript strict mode
-- [x] Clean Architecture (Backend)
-- [x] Premium dark mode UI (Vercel/Linear inspired)
-- [x] Glassmorphism navbar
-- [x] Responsive design
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 14, React 18, TypeScript |
-| Styling | Tailwind CSS, Lucide Icons |
-| State | Zustand |
-| Backend | Express.js, Node.js |
-| Database | MongoDB Atlas, Mongoose |
-| Auth | JWT (httpOnly cookies) |
-| Images | Cloudinary, Multer |
-| Deploy | Vercel (frontend), Render (backend) |
-
-## 📄 License
-
-ISC
+*Built with Next.js 14 & Express — 2024*
