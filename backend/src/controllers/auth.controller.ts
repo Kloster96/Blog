@@ -26,8 +26,15 @@ export async function login(
 
     const { token, user } = await authService.login(username, password)
 
-    // Return token in response body (frontend stores in Zustand)
-    res.json({ message: 'Login successful', token, user })
+    // Enviar token como cookie httpOnly (producción)
+    res.cookie('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+    })
+
+    res.json({ message: 'Login successful', user })
   } catch (error) {
     if (error instanceof Error && error.message === 'Credenciales inválidas') {
       res.status(401).json({ error: 'Unauthorized', message: 'Credenciales inválidas' })
@@ -41,6 +48,7 @@ export async function login(
  * POST /api/auth/logout
  */
 export function logout(_req: Request, res: Response): void {
+  res.clearCookie('auth_token')
   res.json({ message: 'Logged out' })
 }
 

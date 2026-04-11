@@ -14,17 +14,24 @@ declare global {
 }
 
 /**
- * Verify JWT from Authorization header
+ * Verify JWT from cookie or Authorization header
  */
 export function verifyJWT(req: Request, res: Response, next: NextFunction): void {
-  const authHeader = req.headers.authorization
+  let token: string | undefined
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  // 1.优先从 cookie 读取 (producción con credentials: 'include')
+  if (req.cookies?.auth_token) {
+    token = req.cookies.auth_token
+  }
+  // 2. fallback al Authorization header
+  else if (req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1]
+  }
+
+  if (!token) {
     res.status(401).json({ error: 'Unauthorized', message: 'No token provided' })
     return
   }
-
-  const token = authHeader.split(' ')[1]
 
   try {
     const payload = authService.verifyToken(token)
