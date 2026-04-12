@@ -10,7 +10,7 @@ A professional tech blog with a complete admin CMS, deployed to production and h
 
 **Stack**: Next.js 14 • Express • MongoDB • TypeScript • JWT • Tailwind
 
-**Live Demo**: [https://blog-nl4oljti2-kloster96s-projects.vercel.app](task-manager-qe5arg993-kloster96s-projects.vercel.app)
+**Live Demo**: [https://blog-sigma-jade-83.vercel.app/](https://blog-sigma-jade-83.vercel.app/)
 
 **API**: [https://blog-ggjx.onrender.com](https://blog-ggjx.onrender.com)
 
