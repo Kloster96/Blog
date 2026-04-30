@@ -133,12 +133,3 @@ Building this project taught me:
 
 ---
 
-## 📫 Contact
-
-- **GitHub**: [github.com/Kloster96](https://github.com/Kloster96)
-- **Email**: kloster.dev@gmail.com
-- **LinkedIn**: [linkedin.com/in/kloster-dev](https://linkedin.com/in/kloster-dev)
-
----
-
-*Built with Next.js 14 & Express — 2024*
