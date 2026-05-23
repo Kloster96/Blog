@@ -1,4 +1,3 @@
-# 🚀 Fullstack Developer Portfolio
 
 ### Hi, I'm a Fullstack Developer specializing in modern web applications. This is my flagship project — a production-ready blog built with technologies companies actually use.
 
